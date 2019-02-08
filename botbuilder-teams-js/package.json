@@ -1,0 +1,25 @@
+{
+  "name": "botbuilder-teams-js",
+  "version": "0.0.1",
+  "description": "Bot Builder V4 extension SDK for Microsoft Teams",
+  "author": "Microsoft Corp",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "typings": "./lib/index.d.ts",
+  "dependencies": {
+    "botbuilder": "^4.2.0",
+    "botframework-connector": "^4.2.0",
+    "botframework-schema": "^4.2.0",
+    "ms-rest-js": "^1.0.455"
+  },
+  "devDependencies": {
+    "autorest": "^2.0.4283",
+    "fs-extra": "^7.0.1",
+    "replace": "^1.0.1",
+    "rimraf": "^2.6.3",
+    "typescript": "^3.2.4"
+  }
+}
