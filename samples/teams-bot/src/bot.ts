@@ -3,16 +3,14 @@
 
 import { StatePropertyAccessor, TurnContext, CardFactory, BotState, Activity } from 'botbuilder';
 import * as teams from 'botbuilder-teams-js';
-import * as request from 'request';
-import * as fs from 'fs';
 
 // Turn counter property
 const TURN_COUNTER = 'turnCounterProperty';
 
-export class EchoBot {
-    
+export class TeamsBot {
     private readonly countAccessor: StatePropertyAccessor<number>;
     private readonly conversationState: BotState;
+    private readonly activityProc = new teams.TeamsActivityProcessor();
 
     /**
      * 
@@ -22,6 +20,7 @@ export class EchoBot {
         // Create a new state accessor property. See https://aka.ms/about-bot-state-accessors to learn more about the bot state and state accessors.        
         this.countAccessor = conversationState.createProperty(TURN_COUNTER);
         this.conversationState = conversationState;
+        this.setupHandlers();
     }
 
     /**
@@ -30,17 +29,18 @@ export class EchoBot {
      * @param {TurnContext} context on turn context object.
      */
     async onTurn(turnContext: TurnContext) {
-        const activityProc = new teams.TeamsActivityProcessor();
+        await this.activityProc.processIncomingActivity(turnContext);
+    }
 
-        activityProc.messageActivityHandler = {
-            onMessageWithFileDownloadInfo: async (ctx, file) => {
-                await turnContext.sendActivity({ textFormat: 'xml', text: `<b>Received File</b> <pre>${JSON.stringify(file, null, 2)}</pre>`});
-            },
-
-            onMessage: async (ctx) => {
-                const teamsCtx = teams.TeamsContext.from(turnContext);
+    /**
+     *  Set up all activity handlers
+     */
+    private setupHandlers () {
+        this.activityProc.messageActivityHandler = {
+            onMessage: async (ctx: TurnContext) => {
+                const teamsCtx = teams.TeamsContext.from(ctx);
                 const text = teamsCtx.getActivityTextWithoutMentions();
-                const adapter = turnContext.adapter as teams.TeamsAdapter;
+                const adapter = ctx.adapter as teams.TeamsAdapter;
 
                 switch (text.toLowerCase()) {
                     case 'cards':
@@ -61,8 +61,8 @@ export class EchoBot {
                         break;
                     
                     case 'members':
-                        const members = await adapter.getConversationMembers(turnContext);
-                        const actMembers = await adapter.getActivityMembers(turnContext);
+                        const members = await adapter.getConversationMembers(ctx);
+                        const actMembers = await adapter.getActivityMembers(ctx);
                         await ctx.sendActivity({ 
                             textFormat: 'xml', 
                             text: `
@@ -77,30 +77,30 @@ export class EchoBot {
                         const teamId = teamsCtx.team.id;
                         const chList = await teamsCtx.teamsConnectorClient.teams.fetchChannelList(teamId);
                         const tmDetails = await teamsCtx.teamsConnectorClient.teams.fetchTeamDetails(teamId);
-                        await turnContext.sendActivity({ textFormat: 'xml', text: `<pre>${JSON.stringify(chList, null, 2)}</pre>`});
-                        await turnContext.sendActivity({ textFormat: 'xml', text: `<pre>${JSON.stringify(tmDetails, null, 2)}</pre>`});
+                        await ctx.sendActivity({ textFormat: 'xml', text: `<pre>${JSON.stringify(chList, null, 2)}</pre>`});
+                        await ctx.sendActivity({ textFormat: 'xml', text: `<pre>${JSON.stringify(tmDetails, null, 2)}</pre>`});
                         break;
                     
                     default:
-                        let count = await this.countAccessor.get(turnContext);
+                        let count = await this.countAccessor.get(ctx);
                         count = count === undefined ? 1 : ++count;
-                        await this.countAccessor.set(turnContext, count);
+                        await this.countAccessor.set(ctx, count);
 
                         let activity: Partial<Activity> = {
                             textFormat: 'xml',
-                            text: `${ count }: You said "${ turnContext.activity.text }"`
+                            text: `${ count }: You said "${ ctx.activity.text }"`
                         };
 
                         // activity = teamsCtx.addMentionToText(activity as Activity, turnContext.activity.from);
                         activity = teams.TeamsContext.notifyUser(activity as Activity);
 
                         await ctx.sendActivity(activity);
-                        await this.conversationState.saveChanges(turnContext);
+                        await this.conversationState.saveChanges(ctx);
                 }            
             }
         };
        
-        activityProc.conversationUpdateActivityHandler = {
+        this.activityProc.conversationUpdateActivityHandler = {
             onChannelRenamed: async (event) => {
                 const e = {
                     channel: event.channel,
@@ -112,11 +112,11 @@ export class EchoBot {
             }
         };
 
-        activityProc.messageReactionActivityHandler = {
-            onMessageReaction: async (turnContext) => {
-                const added = turnContext.activity.reactionsAdded;
-                const removed = turnContext.activity.reactionsRemoved;
-                await turnContext.sendActivity({ 
+        this.activityProc.messageReactionActivityHandler = {
+            onMessageReaction: async (ctx: TurnContext) => {
+                const added = ctx.activity.reactionsAdded;
+                const removed = ctx.activity.reactionsRemoved;
+                await ctx.sendActivity({ 
                     textFormat: 'xml', 
                     text: `
                         <h1><b>[Reaction Event]</b></h1></br>
@@ -125,12 +125,12 @@ export class EchoBot {
                         <b>Removed</b></br>
                         <pre>${JSON.stringify(removed, null, 2)}</pre>
                         <b>Activity</b></br>
-                        <pre>${JSON.stringify(turnContext.activity, null, 2)}</pre>
+                        <pre>${JSON.stringify(ctx.activity, null, 2)}</pre>
                 `});
 
-                const adapter = turnContext.adapter as teams.TeamsAdapter;
-                const members = await adapter.getConversationMembers(turnContext);
-                const fromAad = turnContext.activity.from.aadObjectId;
+                const adapter = ctx.adapter as teams.TeamsAdapter;
+                const members = await adapter.getConversationMembers(ctx);
+                const fromAad = ctx.activity.from.aadObjectId;
                 const member = members.find(m => m.aadObjectId === fromAad);
                 const memberName = member && member.givenName;
                 const isLike = added && added[0] && added[0].type === 'like';
@@ -138,12 +138,12 @@ export class EchoBot {
                     const text = isLike
                         ? `<b>${memberName}</b>, thanks for liking my message! 😍😘`
                         : `<b>${memberName}</b>, why don't you like what I said? 😭😢`;
-                    await turnContext.sendActivity({ textFormat: 'xml', text });
+                    await ctx.sendActivity({ textFormat: 'xml', text });
                 }
             }
         };
 
-        activityProc.invokeActivityHandler = {
+        this.activityProc.invokeActivityHandler = {
             onO365CardAction: async (ctx: TurnContext, query: teams.O365ConnectorCardActionQuery) => {
                 let userName = ctx.activity.from.name;
                 let body = JSON.parse(query.body);
@@ -152,7 +152,7 @@ export class EchoBot {
                     textFormat: 'xml',
                     text: `<h2>Thanks, ${userName}!</h2><br/><h3>Your input action ID:</h3><br/><pre>${query.actionId}</pre><br/><h3>Your input body:</h3><br/><pre>${JSON.stringify(body, null, 2)}</pre>`
                 };
-                await turnContext.sendActivity(msg);
+                await ctx.sendActivity(msg);
                 return { status: 200 };
             },
             
@@ -176,47 +176,11 @@ export class EchoBot {
                 });
             },
 
-            onFileConsent: async (ctx: TurnContext, query: teams.FileConsentCardResponse) => {
-                await turnContext.sendActivity({ textFormat: 'xml', text: `[onFileConsent] <pre>${JSON.stringify(query, null, 2)}</pre>`});
-                if (query.action === 'accept') {
-                    const fname = 'teamsAppManifest/icon-color.png';
-                    const fileInfo = fs.statSync(fname);
-                    const file = new Buffer(fs.readFileSync(fname, 'binary'), 'binary');
-                    const r = await new Promise((resolve, reject) => {
-                        request.put({
-                            uri: query.uploadInfo.uploadUrl,
-                            headers: {
-                               'Content-Length': fileInfo.size,
-                               'Content-Range': `bytes 0-${fileInfo.size-1}/${fileInfo.size}`
-                            },
-                            encoding: null,
-                            body: file, 
-                            json: true
-                        }, async (err, res) => {
-                            const downloadCard = teams.TeamsFactory.fileInfoCard(
-                                query.uploadInfo.name,
-                                query.uploadInfo.contentUrl,
-                                {
-                                    'uniqueId': query.uploadInfo.uniqueId,
-                                    'fileType': query.uploadInfo.fileType
-                                }
-                            );
-                            await ctx.sendActivity({ attachments: [downloadCard] });
-                            err ? resolve(err) : resolve(res.body);
-                        });
-                    });
-                    await turnContext.sendActivity({ textFormat: 'xml', text: `[file upload] <pre>${JSON.stringify(r, null, 2)}</pre>`});
-                }
-                return { status: 200 };
-            },
-
-            onInvoke: async (ctx) => {
-                await turnContext.sendActivity({ textFormat: 'xml', text: `[General onInvoke] <pre>${JSON.stringify(ctx.activity, null, 2)}</pre>`});
+            onInvoke: async (ctx: TurnContext) => {
+                await ctx.sendActivity({ textFormat: 'xml', text: `[General onInvoke] <pre>${JSON.stringify(ctx.activity, null, 2)}</pre>`});
                 return { status: 200, body: { composeExtensions: {} } };
             }
         };
-
-        await activityProc.processIncomingActivity(turnContext);
     }
 
     private async sentCards (ctx: TurnContext) {
@@ -274,21 +238,10 @@ export class EchoBot {
             ]
         });
 
-        const fileCard = teams.TeamsFactory.fileConsentCard(
-            'icon-color.png', 
-            {
-                'description': 'This is the file I want to send you',
-                'sizeInBytes': 3196,
-                'acceptContext': {},
-                'declineContext': {}
-            }
-        );
-
         await ctx.sendActivities([
             { attachments: [heroCard] },
             { attachments: [signinCard] },
-            { attachments: [o365Card] },
-            { attachments: [fileCard] }
+            { attachments: [o365Card] }
         ]);
     }
 }

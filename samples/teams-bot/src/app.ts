@@ -15,7 +15,7 @@ import { SimpleCredentialProvider } from 'botframework-connector';
 
 import * as teams from 'botbuilder-teams-js';
 
-import { EchoBot } from './bot';
+import { TeamsBot } from './bot';
 
 // Read botFilePath and botFileSecret from .env file
 // Note: Ensure you have a .env file and include botFilePath and botFileSecret.
@@ -96,11 +96,11 @@ let conversationState = new teams.TeamSpecificConversationState(memoryStorage);
 // conversationState = new ConversationState(blobStorage);
 
 // Create the EchoBot.
-const bot = new EchoBot(conversationState);
+const bot = new TeamsBot(conversationState);
 
 // Create HTTP server
 let server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3979, function() {
+server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);
     console.log(`\nTo talk to your bot, open echobot-with-counter.bot file in the Emulator.`);

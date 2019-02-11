@@ -26,8 +26,26 @@
   "bots": [
     {
       "botId": "{YOUR_BOT_ID}",
-      "supportsFiles": true,
       "scopes": ["personal", "team"]
+    }
+  ],
+  "composeExtensions": [
+    {
+      "botId": "{YOUR_BOT_ID}",
+      "commands": [
+        {
+          "id": "queryCards",
+          "description": "Test command to run query",
+          "title": "Query cards",
+          "parameters": [
+            {
+              "name": "queryText",
+              "title": "Query parameter",
+              "description": "Query parameter"
+            }
+          ]
+        }
+      ]
     }
   ],
   "validDomains": ["*.azurewebsites.net"]
