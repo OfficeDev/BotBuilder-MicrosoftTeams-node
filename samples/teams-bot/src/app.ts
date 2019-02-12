@@ -13,7 +13,7 @@ import { BotConfiguration, IEndpointService } from 'botframework-config';
 
 import { SimpleCredentialProvider } from 'botframework-connector';
 
-import * as teams from 'botbuilder-teams-js';
+import * as teams from 'botbuilder-teams';
 
 import { TeamsBot } from './bot';
 

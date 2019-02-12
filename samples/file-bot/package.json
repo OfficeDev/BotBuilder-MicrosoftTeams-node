@@ -8,7 +8,7 @@
     "start": "npm run build:live",
     "build:live": "nodemon --ignore './data' --exec node --inspect=5566 -r ts-node/register ./src/app.ts",
     "preinstall": "npm pack ../../botbuilder-teams-js/ && npm i *.tgz",
-    "postinstall": "rm botbuilder-teams-js*.tgz"
+    "postinstall": "rm botbuilder-teams*.tgz"
   },
   "dependencies": {
     "botbuilder": "^4.2.0",

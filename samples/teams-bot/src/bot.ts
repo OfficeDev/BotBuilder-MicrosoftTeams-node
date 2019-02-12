@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { StatePropertyAccessor, TurnContext, CardFactory, BotState, Activity } from 'botbuilder';
-import * as teams from 'botbuilder-teams-js';
+import * as teams from 'botbuilder-teams';
 
 // Turn counter property
 const TURN_COUNTER = 'turnCounterProperty';

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { TurnContext } from 'botbuilder';
-import * as teams from 'botbuilder-teams-js';
+import * as teams from 'botbuilder-teams';
 import * as request from 'request';
 import * as fs from 'fs';
 

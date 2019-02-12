@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as restify from 'restify';
-import * as teams from 'botbuilder-teams-js';
+import * as teams from 'botbuilder-teams';
 import { BotFrameworkAdapterSettings } from 'botbuilder';
 import { FileBot } from './bot';
 import * as path from 'path';
