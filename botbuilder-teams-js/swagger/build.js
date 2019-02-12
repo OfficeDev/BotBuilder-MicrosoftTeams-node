@@ -28,7 +28,7 @@ function replaceStrings() {
       include: '*.ts'
     });
 
-  runReplace('@azure/ms-rest-js', 'botframework-connector/node_modules/ms-rest-js');
+  runReplace('@azure/ms-rest-js', 'ms-rest-js');
   runReplace(`"`, `'`);
   runReplace(`from '../teamsConnectorClientContext'`, `from '../../'`);
 }

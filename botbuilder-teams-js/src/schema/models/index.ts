@@ -6,8 +6,8 @@
 
 import * as teams from '../extension'
 import * as builder from 'botbuilder'
-import { ServiceClientOptions } from 'botframework-connector/node_modules/ms-rest-js';
-import * as msRest from 'botframework-connector/node_modules/ms-rest-js';
+import { ServiceClientOptions } from 'ms-rest-js';
+import * as msRest from 'ms-rest-js';
 
 
 /**
