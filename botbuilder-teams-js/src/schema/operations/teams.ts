@@ -4,7 +4,7 @@
  * regenerated.
  */
 
-import * as msRest from 'ms-rest-js';
+import * as msRest from 'botframework-connector/node_modules/ms-rest-js';
 import * as Models from '../models';
 import * as Mappers from '../models/teamsMappers';
 import * as Parameters from '../models/parameters';
