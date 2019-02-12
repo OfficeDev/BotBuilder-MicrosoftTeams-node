@@ -1,0 +1,27 @@
+{
+    "name": "botbuilder-teams-js-teams-bot",
+    "version": "0.0.1",
+    "description": "Microsoft Teams Sample Bot for BotBuilder V4",
+    "author": "Microsoft Corp",
+    "license": "MIT",
+    "scripts": {
+      "start": "npm run build:live",
+      "build:live": "nodemon --ignore './data' --exec node --inspect=5566 -r ts-node/register ./src/app.ts",
+      "preinstall": "npm pack ../../botbuilder-teams-js/ && npm i *.tgz",
+      "postinstall": "rm botbuilder-teams-js*.tgz"
+    },
+    "dependencies": {
+      "botbuilder": "^4.2.0",
+      "botframework-config": "^4.2.0",
+      "dotenv": "^6.2.0",
+      "nodemon": "^1.18.9",
+      "restify": "^7.6.0",
+      "restify-plugins": "^1.6.0",
+      "ts-node": "^7.0.1"
+    },
+    "devDependencies": {
+      "@types/restify": "^7.2.7",
+      "typescript": "^3.2.4"
+    }
+  }
+  
