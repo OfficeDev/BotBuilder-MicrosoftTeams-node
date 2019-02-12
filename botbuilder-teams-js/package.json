@@ -12,7 +12,6 @@
   "dependencies": {
     "botbuilder": "^4.2.0",
     "botframework-connector": "^4.2.0",
-    "botframework-schema": "^4.2.0",
     "ms-rest-js": "^1.0.455"
   },
   "devDependencies": {
