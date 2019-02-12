@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ActivityTypes, ConversationState, StatePropertyAccessor, TurnContext } from 'botbuilder';
+import { ActivityTypes, BotState, StatePropertyAccessor, TurnContext } from 'botbuilder';
 
 // Turn counter property
 const TURN_COUNTER = 'turnCounterProperty';
@@ -9,13 +9,13 @@ const TURN_COUNTER = 'turnCounterProperty';
 export class EchoBot {
 
     private readonly countAccessor: StatePropertyAccessor<number>;
-    private readonly conversationState: ConversationState;
+    private readonly conversationState: BotState;
 
     /**
      *
-     * @param {ConversationState} conversation state object
+     * @param {BotState} conversation state object
      */
-    constructor(conversationState: ConversationState) {
+    constructor(conversationState: BotState) {
         // Create a new state accessor property.
         // See https://aka.ms/about-bot-state-accessors to learn more about the bot state and state accessors.
         this.countAccessor = conversationState.createProperty(TURN_COUNTER);
