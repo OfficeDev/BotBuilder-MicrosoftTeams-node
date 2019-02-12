@@ -6,15 +6,8 @@ import * as path from 'path';
 import { config } from 'dotenv';
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
-import { BotFrameworkAdapter, ConversationState, MemoryStorage, BotFrameworkAdapterSettings } from 'botbuilder';
-
-// Import required bot configuration.
-import { BotConfiguration, IEndpointService } from 'botframework-config';
-
-import { SimpleCredentialProvider } from 'botframework-connector';
-
+import { MemoryStorage, BotFrameworkAdapterSettings } from 'botbuilder';
 import * as teams from 'botbuilder-teams';
-
 import { TeamsBot } from './bot';
 
 // Read botFilePath and botFileSecret from .env file
@@ -56,6 +49,7 @@ const botSetting: Partial<BotFrameworkAdapterSettings> = {
 
 const adapter = new teams.TeamsAdapter(botSetting);
 
+// Use Teams middleware
 adapter.use(new teams.TeamsMiddleware());
 
 // Catch-all for any unhandled errors in your bot.
@@ -109,16 +103,10 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
 // Listen for incoming activities and route them to your bot for processing.
 server.use(require('restify-plugins').bodyParser());
 server.post('/api/messages', (req, res) => {
-    console.log(`[INCOMING REQUEST] ${JSON.stringify(req.body, null, 2)}`);
     adapter.processActivity(req, res, async (turnContext) => {
         // Call bot.onTurn() to handle all incoming messages.
         await bot.onTurn(turnContext);
     });
-});
-
-server.get('/', (req, res) => {
-  res.send(200, 'OK!');
-  res.end();
 });
 
 server.get('/auth', (req, res) => {
