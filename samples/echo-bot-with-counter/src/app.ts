@@ -7,7 +7,7 @@ import * as restify from 'restify';
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-import { BotFrameworkAdapter, ConversationState, MemoryStorage } from 'botbuilder';
+import { BotFrameworkAdapter, MemoryStorage } from 'botbuilder';
 import * as teams from 'botbuilder-teams';
 
 // Import required bot configuration.

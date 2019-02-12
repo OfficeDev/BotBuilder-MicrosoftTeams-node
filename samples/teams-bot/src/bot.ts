@@ -197,6 +197,13 @@ export class TeamsBot {
                     type: 'invoke',
                     title: 'invoke',
                     value: { key: 'invoke value' }
+                },
+                {
+                    type: 'messageBack',
+                    title: 'messageBack',
+                    value: { key: 'messageback value' },
+                    text: 'text seen by bot',
+                    displayText: 'text seen by users'
                 }
             ]));
 
