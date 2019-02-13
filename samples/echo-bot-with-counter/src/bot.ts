@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { ActivityTypes, BotState, StatePropertyAccessor, TurnContext } from 'botbuilder';
+import { ActivityTypes, BotState, StatePropertyAccessor, TurnContext } from 'botbuilder-teams/node_modules/botbuilder';
 
 // Turn counter property
 const TURN_COUNTER = 'turnCounterProperty';

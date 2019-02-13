@@ -6,12 +6,10 @@
   "license": "MIT",
   "scripts": {
     "start": "npm run build:live",
-    "build:live": "nodemon --ignore './data' --exec node --inspect=5566 -r ts-node/register ./src/app.ts",
-    "preinstall": "npm pack ../../botbuilder-teams-js/ && npm i *.tgz",
-    "postinstall": "rm botbuilder-teams*.tgz"
+    "build:live": "nodemon --ignore './data' --exec node --inspect=5566 -r ts-node/register ./src/app.ts"
   },
   "dependencies": {
-    "botbuilder": "^4.2.0",
+    "botbuilder-teams": "file:../../botbuilder-teams-js",
     "botframework-config": "^4.2.0",
     "dotenv": "^6.2.0",
     "nodemon": "^1.18.9",

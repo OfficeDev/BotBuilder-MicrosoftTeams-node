@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { TurnContext } from 'botbuilder';
+import { TurnContext } from 'botbuilder-teams/node_modules/botbuilder';
 import * as teams from 'botbuilder-teams';
 import * as request from 'request';
 import * as fs from 'fs';

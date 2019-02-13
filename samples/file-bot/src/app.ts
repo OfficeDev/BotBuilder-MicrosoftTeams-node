@@ -3,7 +3,7 @@
 
 import * as restify from 'restify';
 import * as teams from 'botbuilder-teams';
-import { BotFrameworkAdapterSettings } from 'botbuilder';
+import { BotFrameworkAdapterSettings } from 'botbuilder-teams/node_modules/botbuilder';
 import { FileBot } from './bot';
 import * as path from 'path';
 import { config } from 'dotenv';

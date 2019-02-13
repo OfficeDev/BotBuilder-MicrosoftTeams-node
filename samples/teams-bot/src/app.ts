@@ -6,7 +6,7 @@ import * as path from 'path';
 import { config } from 'dotenv';
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
-import { MemoryStorage, BotFrameworkAdapterSettings } from 'botbuilder';
+import { MemoryStorage, BotFrameworkAdapterSettings } from 'botbuilder-teams/node_modules/botbuilder';
 import * as teams from 'botbuilder-teams';
 
 // Import required bot configuration.

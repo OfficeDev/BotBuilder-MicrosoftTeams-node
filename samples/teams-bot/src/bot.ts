@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { StatePropertyAccessor, TurnContext, CardFactory, BotState, Activity } from 'botbuilder';
+import { StatePropertyAccessor, TurnContext, CardFactory, BotState, Activity } from 'botbuilder-teams/node_modules/botbuilder';
 import * as teams from 'botbuilder-teams';
 
 // Turn counter property
