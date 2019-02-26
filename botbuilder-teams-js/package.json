@@ -18,6 +18,6 @@
     "fs-extra": "^7.0.1",
     "replace": "^1.0.1",
     "rimraf": "^2.6.3",
-    "typescript": "^3.2.4"
+    "typescript": "^3.3.3333"
   }
 }
