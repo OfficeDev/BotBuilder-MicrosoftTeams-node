@@ -26,8 +26,8 @@ export * from './connector';
 export * from './middlewares';
 export * from './stateStorage';
 
-import * as schema from './schema';
-export { schema };
+import * as models from './schema';
+export { models };
 
 export * from './teamsContext';
 export * from './teamsAdapter';
