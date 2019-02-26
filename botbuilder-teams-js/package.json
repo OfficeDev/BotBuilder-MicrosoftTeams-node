@@ -6,7 +6,8 @@
   "license": "MIT",
   "main": "./lib/index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "cd tests && mocha ."
   },
   "typings": "./lib/index.d.ts",
   "dependencies": {
@@ -14,8 +15,10 @@
     "botframework-connector": "^4.2.0"
   },
   "devDependencies": {
+    "@types/mocha": "^5.2.6",
     "autorest": "^2.0.4283",
     "fs-extra": "^7.0.1",
+    "mocha": "^6.0.2",
     "replace": "^1.0.1",
     "rimraf": "^2.6.3",
     "typescript": "^3.3.3333"
