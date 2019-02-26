@@ -25,9 +25,6 @@ export * from './activityProcessor';
 export * from './connector';
 export * from './middlewares';
 export * from './stateStorage';
-
-import * as models from './schema';
-export { models };
-
+export * from './schema';
 export * from './teamsContext';
 export * from './teamsAdapter';
