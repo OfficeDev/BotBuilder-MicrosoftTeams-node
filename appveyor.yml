@@ -4,10 +4,12 @@ image: ubuntu
 # Test against the latest version of this Node.js version
 environment:
   nodejs_version: "8.11.3"
+  project_folder: "botbuilder-microsoftteams-node"
 
 # Pre-install init script
 init:
-  - rm -rf /home/appveyor/projects/botbuilder-microsoftteams-node
+  - rm -rf /home/appveyor/projects/$project_folder
+  - mkdir /home/appveyor/projects/$project_folder
   - nvm install $nodejs_version
   - nvm use $nodejs_version
   - node --version
