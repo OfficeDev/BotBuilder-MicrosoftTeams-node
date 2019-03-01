@@ -10,4 +10,9 @@ describe('TeamsContext', () => {
     assert(TeamsContext.from(turnCtx) === teamsCtx);
     done();
   });
+
+  it(`test UT`, (done) => {
+    assert(true);
+    done();
+  });
 });
