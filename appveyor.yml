@@ -3,10 +3,12 @@ image: ubuntu
 
 # Test against the latest version of this Node.js version
 environment:
-  nodejs_version: "8"
+  nodejs_version: "8.11.3"
 
 # Pre-install init script
 init:
+  - sudo apt-get update
+  - sudo apt-get install nodejs=$env:nodejs_version
   - node --version
   - npm --version
 
