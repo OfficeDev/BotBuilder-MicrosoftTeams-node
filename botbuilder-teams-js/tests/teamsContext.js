@@ -12,7 +12,7 @@ describe('TeamsContext', () => {
   });
 
   it(`test UT`, (done) => {
-    assert(true);
+    assert(false);
     done();
   });
 });
