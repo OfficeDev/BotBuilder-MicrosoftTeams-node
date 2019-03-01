@@ -7,10 +7,7 @@ environment:
 
 # Pre-install init script
 init:
-  - curl -sL https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh -o install_nvm.sh
-  - bash install_nvm.sh
-  - source ~/.profile
-  - nvm ls-remote
+  - rm -rf /home/appveyor/projects/botbuilder-microsoftteams-node
   - nvm install $nodejs_version
   - nvm use $nodejs_version
   - node --version
