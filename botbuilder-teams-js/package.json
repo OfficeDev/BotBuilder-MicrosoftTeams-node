@@ -1,6 +1,6 @@
 {
   "name": "botbuilder-teams",
-  "version": "4.0.0",
+  "version": "4.0.0-beta1",
   "description": "Bot Builder V4 extension SDK for Microsoft Teams",
   "author": "Microsoft Corp",
   "license": "MIT",
