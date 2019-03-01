@@ -5,6 +5,11 @@ image: ubuntu
 environment:
   nodejs_version: "8"
 
+# Pre-install init script
+init:
+  - node --version
+  - npm --version
+
 # Install scripts. (runs after repo cloning)
 install:
   - cd botbuilder-teams-js
