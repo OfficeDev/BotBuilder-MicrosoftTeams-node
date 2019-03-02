@@ -1,5 +1,7 @@
 # Bot Builder SDK4 - Microsoft Teams Extensions
 
+[![Build status](https://ci.appveyor.com/api/projects/status/4kghlfgmsw2tnk0o/branch/master?svg=true)](https://ci.appveyor.com/project/robin-liao/botbuilder-microsoftteams-node/branch/master)
+
 The Microsoft Bot Builder SDK Teams Extensions allow bots built using Bot Builder SDK to consume Teams functionality easily. **[Review the documentation](https://msdn.microsoft.com/en-us/microsoft-teams/bots)** to get started!
 
 # Samples
