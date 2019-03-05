@@ -28,7 +28,6 @@ function replaceStrings() {
       include: '*.ts'
     });
 
-  runReplace('@azure/ms-rest-js', 'ms-rest-js');
   runReplace(`"`, `'`);
   runReplace(`from '../teamsConnectorClientContext'`, `from '../../'`);
 }

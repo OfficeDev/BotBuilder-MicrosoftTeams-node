@@ -21,7 +21,7 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import { BotFrameworkAdapter, ConversationReference, TurnContext, ConversationParameters, Activity, ConversationAccount, ResourceResponse, ActivityTypes, ConversationsGetConversationMembersResponse, ConversationsGetActivityMembersResponse } from 'botbuilder';
+import { BotFrameworkAdapter, ConversationReference, TurnContext, ConversationParameters, Activity, ConversationAccount, ResourceResponse, ActivityTypes } from 'botbuilder';
 import { ConnectorClient } from 'botframework-connector';
 import { TeamsChannelData, TeamsChannelAccount } from './schema';
 import { TeamsContext } from './teamsContext';
@@ -60,7 +60,7 @@ export class TeamsAdapter extends BotFrameworkAdapter {
    */
   public async getActivityMembers(context: TurnContext, activityId?: string): Promise<TeamsChannelAccount[]> {
     const members = await super.getActivityMembers(context, activityId)
-      .then((res: ConversationsGetActivityMembersResponse) => 
+      .then((res: any) => 
         this.merge_objectId_and_aadObjectId(JSON.parse(res._response.bodyAsText)));
     if (TeamsContext.isTeamsChannelAccounts(members)) {
       return members;
@@ -83,7 +83,7 @@ export class TeamsAdapter extends BotFrameworkAdapter {
    */
   public async getConversationMembers(context: TurnContext): Promise<TeamsChannelAccount[]> {
     const members = await super.getConversationMembers(context)
-      .then((res: ConversationsGetConversationMembersResponse) =>
+      .then((res: any) =>
         this.merge_objectId_and_aadObjectId(JSON.parse(res._response.bodyAsText)));      
     if (TeamsContext.isTeamsChannelAccounts(members)) {
       return members;
