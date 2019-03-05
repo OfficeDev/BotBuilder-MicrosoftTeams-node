@@ -26,6 +26,13 @@ Get started quickly with our samples:
 # Getting started
 
 * This SDK is the extension of [Bot Framework SDK 4](https://github.com/Microsoft/botbuilder-js), so you may start with [the quickstart](https://docs.microsoft.com/en-us/azure/bot-service/javascript/bot-builder-javascript-quickstart?view=azure-bot-service-4.0) or [the example for Azure Web app bot](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-nodejs-tutorial-bf-v4) if you never have experience for it. 
+
+* Once you've got your bot scaffolded out, install the Teams BotBuilder package:
+
+```bash
+npm install botbuilder-teams@4.0.0-beta1
+```
+
 * To extend your bot to support Microsoft Teams, add middleware to adapter:
 ```typescript
 // use Teams middleware
