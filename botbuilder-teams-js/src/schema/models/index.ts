@@ -109,12 +109,13 @@ export interface TenantInfo {
 /**
  * @interface
  * An interface representing TeamsChannelData.
- * List of channels under a team
+ * Channel data specific to messages received in Microsoft Teams
  *
  */
 export interface TeamsChannelData {
   /**
-   * @member {ChannelInfo} [channel]
+   * @member {ChannelInfo} [channel] Information about the channel in which the
+   * message was sent
    */
   channel?: ChannelInfo;
   /**
@@ -122,15 +123,18 @@ export interface TeamsChannelData {
    */
   eventType?: string;
   /**
-   * @member {TeamInfo} [team]
+   * @member {TeamInfo} [team] Information about the team in which the message
+   * was sent
    */
   team?: TeamInfo;
   /**
-   * @member {NotificationInfo} [notification]
+   * @member {NotificationInfo} [notification] Notification settings for the
+   * message
    */
   notification?: NotificationInfo;
   /**
-   * @member {TenantInfo} [tenant]
+   * @member {TenantInfo} [tenant] Information about the tenant in which the
+   * message was sent
    */
   tenant?: TenantInfo;
 }
@@ -143,10 +147,6 @@ export interface TeamsChannelData {
  * @extends builder.ChannelAccount
  */
 export interface TeamsChannelAccount extends builder.ChannelAccount {
-  /**
-   * @member {string} [aadObjectId] Unique Azure Active Directory object Id.
-   */
-  aadObjectId?: string;
   /**
    * @member {string} [givenName] Given name part of the user name.
    */
@@ -215,23 +215,23 @@ export interface O365ConnectorCardSection {
    */
   text?: string;
   /**
-   * @member {string} [activityTitle] Activity title
+   * @member {string} [activityTitle] builder.Activity title
    */
   activityTitle?: string;
   /**
-   * @member {string} [activitySubtitle] Activity subtitle
+   * @member {string} [activitySubtitle] builder.Activity subtitle
    */
   activitySubtitle?: string;
   /**
-   * @member {string} [activityText] Activity text
+   * @member {string} [activityText] builder.Activity text
    */
   activityText?: string;
   /**
-   * @member {string} [activityImage] Activity image
+   * @member {string} [activityImage] builder.Activity image
    */
   activityImage?: string;
   /**
-   * @member {ActivityImageType} [activityImageType] Describes how Activity
+   * @member {ActivityImageType} [activityImageType] Describes how builder.Activity
    * image is rendered. Possible values include: 'avatar', 'article'
    */
   activityImageType?: ActivityImageType;
@@ -606,6 +606,11 @@ export interface MessagingExtensionResult {
    * @member {string} [text] (Only when type is message) Text
    */
   text?: string;
+  /**
+   * @member {Activity} [activityPreview] (Only when type is botMessagePreview)
+   * Message activity to preview
+   */
+  activityPreview?: builder.Activity;
 }
 
 /**
@@ -639,13 +644,13 @@ export interface FileConsentCard {
   /**
    * @member {any} [acceptContext] Context sent back to the Bot if user
    * consented to upload. This is free flow schema and is sent back in Value
-   * field of Activity.
+   * field of builder.Activity.
    */
   acceptContext?: any;
   /**
    * @member {any} [declineContext] Context sent back to the Bot if user
    * declined. This is free flow schema and is sent back in Value field of
-   * Activity.
+   * builder.Activity.
    */
   declineContext?: any;
 }
@@ -752,6 +757,108 @@ export interface FileConsentCardResponse {
 
 /**
  * @interface
+ * An interface representing TaskModuleTaskInfo.
+ * Metadata for a Task Module.
+ *
+ */
+export interface TaskModuleTaskInfo {
+  /**
+   * @member {string} [title] Appears below the app name and to the right of
+   * the app icon.
+   */
+  title?: string;
+  /**
+   * @member {any} [height] This can be a number, representing the task
+   * module's height in pixels, or a string, one of: small, medium, large.
+   */
+  height?: any;
+  /**
+   * @member {any} [width] This can be a number, representing the task module's
+   * width in pixels, or a string, one of: small, medium, large.
+   */
+  width?: any;
+  /**
+   * @member {string} [url] The URL of what is loaded as an iframe inside the
+   * task module. One of url or card is required.
+   */
+  url?: string;
+  /**
+   * @member {Attachment} [card] The JSON for the Adaptive card to appear in
+   * the task module.
+   */
+  card?: builder.Attachment;
+  /**
+   * @member {string} [fallbackUrl] If a client does not support the task
+   * module feature, this URL is opened in a browser tab.
+   */
+  fallbackUrl?: string;
+  /**
+   * @member {string} [completionBotId] If a client does not support the task
+   * module feature, this URL is opened in a browser tab.
+   */
+  completionBotId?: string;
+}
+
+/**
+ * @interface
+ * An interface representing TaskModuleResponseBase.
+ * Base class for Task Module responses
+ *
+ */
+export interface TaskModuleResponseBase {
+  /**
+   * @member {Type3} [type] Choice of action options when responding to the
+   * task/submit message. Possible values include: 'message', 'continue'
+   */
+  type?: Type3;
+}
+
+/**
+ * @interface
+ * An interface representing TaskModuleContinueResponse.
+ * Task Module Response with continue action.
+ *
+ * @extends TaskModuleResponseBase
+ */
+export interface TaskModuleContinueResponse extends TaskModuleResponseBase {
+  /**
+   * @member {TaskModuleTaskInfo} [value] The JSON for the Adaptive card to
+   * appear in the task module.
+   */
+  value?: TaskModuleTaskInfo;
+}
+
+/**
+ * @interface
+ * An interface representing TaskModuleMessageResponse.
+ * Task Module response with message action.
+ *
+ * @extends TaskModuleResponseBase
+ */
+export interface TaskModuleMessageResponse extends TaskModuleResponseBase {
+  /**
+   * @member {string} [value] Teams will display the value of value in a popup
+   * message box.
+   */
+  value?: string;
+}
+
+/**
+ * @interface
+ * An interface representing TaskModuleResponseEnvelope.
+ * Envelope for Task Module Response.
+ *
+ */
+export interface TaskModuleResponseEnvelope {
+  /**
+   * @member {TaskModuleResponseBase} [task] The JSON for the Adaptive card to
+   * appear in the task module.
+   */
+  task?: TaskModuleResponseBase;
+}
+
+/**
+ * @interface
  * An interface representing TeamsConnectorClientOptions.
  * @extends ServiceClientOptions
  */
@@ -825,6 +932,14 @@ export type Type2 = 'result' | 'auth' | 'config' | 'message';
  * @enum {string}
  */
 export type Action = 'accept' | 'decline';
+
+/**
+ * Defines values for Type3.
+ * Possible values include: 'message', 'continue'
+ * @readonly
+ * @enum {string}
+ */
+export type Type3 = 'message' | 'continue';
 
 /**
  * Contains response data for the fetchChannelList operation.

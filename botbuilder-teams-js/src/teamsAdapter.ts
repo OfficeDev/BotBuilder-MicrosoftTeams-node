@@ -163,53 +163,53 @@ export class TeamsAdapter extends BotFrameworkAdapter {
    * await adapter.createReplyChain(ctx, [
    *   { text: 'New reply chain' }
    * ]);
-    * ```
-    * @param turnContext current TurnContext
-    * @param activities One or more activities to send to the team as new reply chain.
-    * @param [inGeneralChannel] (optional) set it true if you want to create new reply chain in the general channel
-    */
-    public createReplyChain(turnContext: TurnContext, activities: Partial<Activity>[], inGeneralChannel?: boolean): Promise<ResourceResponse[]> {
-      let sentNonTraceActivity: boolean = false;
-      const teamsCtx = TeamsContext.from(turnContext);
-      const ref: Partial<ConversationReference> = TurnContext.getConversationReference(turnContext.activity);
-      const output: Partial<Activity>[] = activities.map((a: Partial<Activity>) => {
-        const o: Partial<Activity> = TurnContext.applyConversationReference({...a}, ref);
-        try {
-          o.conversation.id = inGeneralChannel
-            ? teamsCtx.getGeneralChannel().id
-            : teamsCtx.channel.id;
-        } catch (e) {
-          // do nothing for fields fetching error
-        }
-        if (!o.type) { o.type = ActivityTypes.Message; }
-        if (o.type !== ActivityTypes.Trace) { sentNonTraceActivity = true; }
-        return o;
-      });
-
-      return turnContext['emit'](turnContext['_onSendActivities'], output, () => {
-        return super.sendActivities(turnContext, output)
-          .then((responses: ResourceResponse[]) => {
-            // Set responded flag
-            if (sentNonTraceActivity) { turnContext.responded = true; }
-            return responses;
-          });
-      });
-    }
-
-    /**
-     * SMBA sometimes returns `objectId` and sometimes returns `aadObjectId`.
-     * Use this function to unify them into `aadObjectId` that is defined by schema.
-     * @param members raw members array
-     */
-    private merge_objectId_and_aadObjectId(members: any[]): any[] {
-      if (members) {
-        members.forEach(m => {
-          if (!m.aadObjectId && m.objectId) {
-            m.aadObjectId = m.objectId;
-          }
-          delete m.objectId;
-        });
+   * ```
+   * @param turnContext current TurnContext
+   * @param activities One or more activities to send to the team as new reply chain.
+   * @param [inGeneralChannel] (optional) set it true if you want to create new reply chain in the general channel
+   */
+  public createReplyChain(turnContext: TurnContext, activities: Partial<Activity>[], inGeneralChannel?: boolean): Promise<ResourceResponse[]> {
+    let sentNonTraceActivity: boolean = false;
+    const teamsCtx = TeamsContext.from(turnContext);
+    const ref: Partial<ConversationReference> = TurnContext.getConversationReference(turnContext.activity);
+    const output: Partial<Activity>[] = activities.map((a: Partial<Activity>) => {
+      const o: Partial<Activity> = TurnContext.applyConversationReference({...a}, ref);
+      try {
+        o.conversation.id = inGeneralChannel
+          ? teamsCtx.getGeneralChannel().id
+          : teamsCtx.channel.id;
+      } catch (e) {
+        // do nothing for fields fetching error
       }
-      return members;
+      if (!o.type) { o.type = ActivityTypes.Message; }
+      if (o.type !== ActivityTypes.Trace) { sentNonTraceActivity = true; }
+      return o;
+    });
+
+    return turnContext['emit'](turnContext['_onSendActivities'], output, () => {
+      return super.sendActivities(turnContext, output)
+        .then((responses: ResourceResponse[]) => {
+          // Set responded flag
+          if (sentNonTraceActivity) { turnContext.responded = true; }
+          return responses;
+        });
+    });
+  }
+
+  /**
+   * SMBA sometimes returns `objectId` and sometimes returns `aadObjectId`.
+   * Use this function to unify them into `aadObjectId` that is defined by schema.
+   * @param members raw members array
+   */
+  private merge_objectId_and_aadObjectId(members: any[]): any[] {
+    if (members) {
+      members.forEach(m => {
+        if (!m.aadObjectId && m.objectId) {
+          m.aadObjectId = m.objectId;
+        }
+        delete m.objectId;
+      });
     }
+    return members;
+  }
 }

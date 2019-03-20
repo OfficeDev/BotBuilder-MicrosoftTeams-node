@@ -13,7 +13,8 @@
   "typings": "./lib/index.d.ts",
   "dependencies": {
     "botbuilder": "^4.2.0",
-    "botframework-connector": "^4.2.0"
+    "botframework-connector": "^4.2.0",
+    "adaptivecards": "^1.0.0"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.6",

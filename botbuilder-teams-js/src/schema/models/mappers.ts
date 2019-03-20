@@ -206,12 +206,6 @@ export const TeamsChannelAccount: msRest.CompositeMapper = {
     className: 'TeamsChannelAccount',
     modelProperties: {
       ...ChannelAccount.type.modelProperties,
-      aadObjectId: {
-        serializedName: 'aadObjectId',
-        type: {
-          name: 'String'
-        }
-      },
       givenName: {
         serializedName: 'givenName',
         type: {
@@ -946,6 +940,22 @@ export const Attachment: msRest.CompositeMapper = {
   }
 };
 
+export const Activity: msRest.CompositeMapper = {
+  serializedName: 'Activity',
+  type: {
+    name: 'Composite',
+    className: 'Activity',
+    modelProperties: {
+      dummyProperty: {
+        serializedName: 'dummyProperty',
+        type: {
+          name: 'String'
+        }
+      }
+    }
+  }
+};
+
 export const MessagingExtensionAttachment: msRest.CompositeMapper = {
   serializedName: 'MessagingExtensionAttachment',
   type: {
@@ -1027,6 +1037,13 @@ export const MessagingExtensionResult: msRest.CompositeMapper = {
         serializedName: 'text',
         type: {
           name: 'String'
+        }
+      },
+      activityPreview: {
+        serializedName: 'activityPreview',
+        type: {
+          name: 'Composite',
+          className: 'Activity'
         }
       }
     }
@@ -1209,6 +1226,127 @@ export const FileConsentCardResponse: msRest.CompositeMapper = {
         type: {
           name: 'Composite',
           className: 'FileUploadInfo'
+        }
+      }
+    }
+  }
+};
+
+export const TaskModuleTaskInfo: msRest.CompositeMapper = {
+  serializedName: 'TaskModuleTaskInfo',
+  type: {
+    name: 'Composite',
+    className: 'TaskModuleTaskInfo',
+    modelProperties: {
+      title: {
+        serializedName: 'title',
+        type: {
+          name: 'String'
+        }
+      },
+      height: {
+        serializedName: 'height',
+        type: {
+          name: 'Object'
+        }
+      },
+      width: {
+        serializedName: 'width',
+        type: {
+          name: 'Object'
+        }
+      },
+      url: {
+        serializedName: 'url',
+        type: {
+          name: 'String'
+        }
+      },
+      card: {
+        serializedName: 'card',
+        type: {
+          name: 'Composite',
+          className: 'Attachment'
+        }
+      },
+      fallbackUrl: {
+        serializedName: 'fallbackUrl',
+        type: {
+          name: 'String'
+        }
+      },
+      completionBotId: {
+        serializedName: 'completionBotId',
+        type: {
+          name: 'String'
+        }
+      }
+    }
+  }
+};
+
+export const TaskModuleResponseBase: msRest.CompositeMapper = {
+  serializedName: 'TaskModuleResponseBase',
+  type: {
+    name: 'Composite',
+    className: 'TaskModuleResponseBase',
+    modelProperties: {
+      type: {
+        serializedName: 'type',
+        type: {
+          name: 'String'
+        }
+      }
+    }
+  }
+};
+
+export const TaskModuleContinueResponse: msRest.CompositeMapper = {
+  serializedName: 'TaskModuleContinueResponse',
+  type: {
+    name: 'Composite',
+    className: 'TaskModuleContinueResponse',
+    modelProperties: {
+      ...TaskModuleResponseBase.type.modelProperties,
+      value: {
+        serializedName: 'value',
+        type: {
+          name: 'Composite',
+          className: 'TaskModuleTaskInfo'
+        }
+      }
+    }
+  }
+};
+
+export const TaskModuleMessageResponse: msRest.CompositeMapper = {
+  serializedName: 'TaskModuleMessageResponse',
+  type: {
+    name: 'Composite',
+    className: 'TaskModuleMessageResponse',
+    modelProperties: {
+      ...TaskModuleResponseBase.type.modelProperties,
+      value: {
+        serializedName: 'value',
+        type: {
+          name: 'String'
+        }
+      }
+    }
+  }
+};
+
+export const TaskModuleResponseEnvelope: msRest.CompositeMapper = {
+  serializedName: 'TaskModuleResponseEnvelope',
+  type: {
+    name: 'Composite',
+    className: 'TaskModuleResponseEnvelope',
+    modelProperties: {
+      task: {
+        serializedName: 'task',
+        type: {
+          name: 'Composite',
+          className: 'TaskModuleResponseBase'
         }
       }
     }
