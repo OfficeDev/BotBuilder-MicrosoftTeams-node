@@ -108,7 +108,7 @@ export class TeamsBot {
                     team: event.team,
                     tenant: event.tenant
                 }
-                event.turnContext.sendActivity({ textFormat: 'xml', text: `[Conversation Update] <pre>${JSON.stringify(e, null, 2)}</pre>`})
+                await event.turnContext.sendActivity({ textFormat: 'xml', text: `[Conversation Update] <pre>${JSON.stringify(e, null, 2)}</pre>`})
             }
         };
 
