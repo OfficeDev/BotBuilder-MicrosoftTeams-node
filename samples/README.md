@@ -3,8 +3,8 @@
 Our samples are running along with the library version against **current repo** instead of NPM release library, so you may preview the sample code for several pre-release features. (So that's why you'll see `"botbuilder-teams": "file:../../botbuilder-teams-js"` in `package.json` in sample folders)
 
 1. **Build library:** go to lib path `~/BotBuilder-MicrosoftTeams-node/botbuilder-teams-js`:
-    1. install and build: `npm i`
-    2. for post-install and you just wanna build or re-build: `npm run build`
+    a) install and build: `npm i`
+    b) for post-install and you just wanna build or re-build: `npm run build`
 
 2. **Set up credentials**: in sample folders find out bot file (usually named `bot-file.json`) and set up your Microsoft Bot ID (App ID) and associated password for `appId` and `appPassword` fields respectively.
 
