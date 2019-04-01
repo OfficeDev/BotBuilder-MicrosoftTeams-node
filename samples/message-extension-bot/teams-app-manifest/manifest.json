@@ -51,7 +51,13 @@
           "description": "Test command to run action to create a card",
           "title": "Create cards",
           "fetchTask": true,
-          "parameters": []
+          "parameters": [
+            {
+              "name": "dummy",
+              "title": "Dummy parameter",
+              "description": "Dummy parameter"
+            }
+          ]
         },
         {
           "id": "createWithPreview",
@@ -59,7 +65,13 @@
           "description": "Test command to run action to create a card with preview before sending",
           "title": "Create cards with preview",
           "fetchTask": true,
-          "parameters": []
+          "parameters": [
+            {
+              "name": "dummy",
+              "title": "Dummy parameter",
+              "description": "Dummy parameter"
+            }
+          ]
         },
         {
           "id": "shareMessage",
@@ -68,10 +80,30 @@
           "description": "Test command to run action on message context (message sharing)",
           "title": "Create cards",
           "fetchTask": true,
-          "parameters": []
+          "parameters": [
+            {
+              "name": "dummy",
+              "title": "Dummy parameter",
+              "description": "Dummy parameter"
+            }
+          ]
+        }
+      ],
+      "messageHandlers": [
+        {
+          "type": "link",
+          "value": {
+            "domains": [
+              "*.azurewebsites.net",
+              "*.example.com"
+            ]
+          }
         }
       ]
     }
   ],
-  "validDomains": ["*.azurewebsites.net"]
+  "validDomains": [
+    "*.azurewebsites.net",
+    "*.example.com"
+  ]
 }

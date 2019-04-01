@@ -551,6 +551,354 @@ export interface MessagingExtensionQuery {
 
 /**
  * @interface
+ * An interface representing MessageActionsPayloadUser.
+ * Represents a user entity.
+ *
+ */
+export interface MessageActionsPayloadUser {
+  /**
+   * @member {UserIdentityType} [userIdentityType] The identity type of the
+   * user. Possible values include: 'aadUser', 'onPremiseAadUser',
+   * 'anonymousGuest', 'federatedUser'
+   */
+  userIdentityType?: UserIdentityType;
+  /**
+   * @member {string} [id] The id of the user.
+   */
+  id?: string;
+  /**
+   * @member {string} [displayName] The plaintext display name of the user.
+   */
+  displayName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing MessageActionsPayloadApp.
+ * Represents an application entity.
+ *
+ */
+export interface MessageActionsPayloadApp {
+  /**
+   * @member {ApplicationIdentityType} [applicationIdentityType] The type of
+   * application. Possible values include: 'aadApplication', 'bot',
+   * 'tenantBot', 'office365Connector', 'webhook'
+   */
+  applicationIdentityType?: ApplicationIdentityType;
+  /**
+   * @member {string} [id] The id of the application.
+   */
+  id?: string;
+  /**
+   * @member {string} [displayName] The plaintext display name of the
+   * application.
+   */
+  displayName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing MessageActionsPayloadConversation.
+ * Represents a team or channel entity.
+ *
+ */
+export interface MessageActionsPayloadConversation {
+  /**
+   * @member {ConversationIdentityType} [conversationIdentityType] The type of
+   * conversation, whether a team or channel. Possible values include: 'team',
+   * 'channel'
+   */
+  conversationIdentityType?: ConversationIdentityType;
+  /**
+   * @member {string} [id] The id of the team or channel.
+   */
+  id?: string;
+  /**
+   * @member {string} [displayName] The plaintext display name of the team or
+   * channel entity.
+   */
+  displayName?: string;
+}
+
+/**
+ * @interface
+ * An interface representing MessageActionsPayloadFrom.
+ * Represents a user, application, or conversation type that either sent or was
+ * referenced in a message.
+ *
+ */
+export interface MessageActionsPayloadFrom {
+  /**
+   * @member {MessageActionsPayloadUser} [user] Represents details of the user.
+   */
+  user?: MessageActionsPayloadUser;
+  /**
+   * @member {MessageActionsPayloadApp} [application] Represents details of the
+   * app.
+   */
+  application?: MessageActionsPayloadApp;
+  /**
+   * @member {MessageActionsPayloadConversation} [conversation] Represents
+   * details of the converesation.
+   */
+  conversation?: MessageActionsPayloadConversation;
+}
+
+/**
+ * @interface
+ * An interface representing MessageActionsPayloadBody.
+ * Plaintext/HTML representation of the content of the message.
+ *
+ */
+export interface MessageActionsPayloadBody {
+  /**
+   * @member {ContentType} [contentType] Type of the content. Possible values
+   * include: 'html', 'text'
+   */
+  contentType?: ContentType;
+  /**
+   * @member {string} [content] The content of the body.
+   */
+  content?: string;
+}
+
+/**
+ * @interface
+ * An interface representing MessageActionsPayloadAttachment.
+ * Represents the attachment in a message.
+ *
+ */
+export interface MessageActionsPayloadAttachment {
+  /**
+   * @member {string} [id] The id of the attachment.
+   */
+  id?: string;
+  /**
+   * @member {string} [contentType] The type of the attachment.
+   */
+  contentType?: string;
+  /**
+   * @member {string} [contentUrl] The url of the attachment, in case of a
+   * external link.
+   */
+  contentUrl?: string;
+  /**
+   * @member {any} [content] The content of the attachment, in case of a code
+   * snippet, email, or file.
+   */
+  content?: any;
+  /**
+   * @member {string} [name] The plaintext display name of the attachment.
+   */
+  name?: string;
+  /**
+   * @member {string} [thumbnailUrl] The url of a thumbnail image that might be
+   * embedded in the attachment, in case of a card.
+   */
+  thumbnailUrl?: string;
+}
+
+/**
+ * @interface
+ * An interface representing MessageActionsPayloadMention.
+ * Represents the entity that was mentioned in the message.
+ *
+ */
+export interface MessageActionsPayloadMention {
+  /**
+   * @member {number} [id] The id of the mentioned entity.
+   */
+  id?: number;
+  /**
+   * @member {string} [mentionText] The plaintext display name of the mentioned
+   * entity.
+   */
+  mentionText?: string;
+  /**
+   * @member {MessageActionsPayloadFrom} [mentioned] Provides more details on
+   * the mentioned entity.
+   */
+  mentioned?: MessageActionsPayloadFrom;
+}
+
+/**
+ * @interface
+ * An interface representing MessageActionsPayloadReaction.
+ * Represents the reaction of a user to a message.
+ *
+ */
+export interface MessageActionsPayloadReaction {
+  /**
+   * @member {ReactionType} [reactionType] The type of reaction given to the
+   * message. Possible values include: 'like', 'heart', 'laugh', 'surprised',
+   * 'sad', 'angry'
+   */
+  reactionType?: ReactionType;
+  /**
+   * @member {string} [createdDateTime] Timestamp of when the user reacted to
+   * the message.
+   */
+  createdDateTime?: string;
+  /**
+   * @member {MessageActionsPayloadFrom} [user] The user with which the
+   * reaction is associated.
+   */
+  user?: MessageActionsPayloadFrom;
+}
+
+/**
+ * @interface
+ * An interface representing MessageActionsPayload.
+ * Represents the individual message within a chat or channel where a message
+ * actions is taken.
+ *
+ */
+export interface MessageActionsPayload {
+  /**
+   * @member {string} [id] Unique id of the message.
+   */
+  id?: string;
+  /**
+   * @member {string} [replyToId] Id of the parent/root message of the thread.
+   */
+  replyToId?: string;
+  /**
+   * @member {MessageType} [messageType] Type of message - automatically set to
+   * message. Possible values include: 'message'
+   */
+  messageType?: MessageType;
+  /**
+   * @member {string} [createdDateTime] Timestamp of when the message was
+   * created.
+   */
+  createdDateTime?: string;
+  /**
+   * @member {string} [lastModifiedDateTime] Timestamp of when the message was
+   * edited or updated.
+   */
+  lastModifiedDateTime?: string;
+  /**
+   * @member {boolean} [deleted] Indicates whether a message has been soft
+   * deleted.
+   */
+  deleted?: boolean;
+  /**
+   * @member {string} [subject] Subject line of the message.
+   */
+  subject?: string;
+  /**
+   * @member {string} [summary] Summary text of the message that could be used
+   * for notifications.
+   */
+  summary?: string;
+  /**
+   * @member {Importance} [importance] The importance of the message. Possible
+   * values include: 'normal', 'high', 'urgent'
+   */
+  importance?: Importance;
+  /**
+   * @member {string} [locale] Locale of the message set by the client.
+   */
+  locale?: string;
+  /**
+   * @member {MessageActionsPayloadFrom} [from] Sender of the message.
+   */
+  from?: MessageActionsPayloadFrom;
+  /**
+   * @member {MessageActionsPayloadBody} [body] Plaintext/HTML representation
+   * of the content of the message.
+   */
+  body?: MessageActionsPayloadBody;
+  /**
+   * @member {string} [attachmentLayout] How the attachment(s) are displayed in
+   * the message.
+   */
+  attachmentLayout?: string;
+  /**
+   * @member {MessageActionsPayloadAttachment[]} [attachments] Attachments in
+   * the message - card, image, file, etc.
+   */
+  attachments?: MessageActionsPayloadAttachment[];
+  /**
+   * @member {MessageActionsPayloadMention[]} [mentions] List of entities
+   * mentioned in the message.
+   */
+  mentions?: MessageActionsPayloadMention[];
+  /**
+   * @member {MessageActionsPayloadReaction[]} [reactions] Reactions for the
+   * message.
+   */
+  reactions?: MessageActionsPayloadReaction[];
+}
+
+/**
+ * @interface
+ * An interface representing TaskModuleRequest.
+ * Task module invoke request value payload
+ *
+ */
+export interface TaskModuleRequest {
+  /**
+   * @member {any} [data] User input data. Free payload with key-value pairs.
+   */
+  data?: any;
+  /**
+   * @member {TaskModuleRequestContext} [context] Current user context, i.e.,
+   * the current theme
+   */
+  context?: TaskModuleRequestContext;
+}
+
+/**
+ * @interface
+ * An interface representing MessagingExtensionAction.
+ * Messaging extension action
+ *
+ * @extends TaskModuleRequest
+ */
+export interface MessagingExtensionAction extends TaskModuleRequest {
+  /**
+   * @member {string} [commandId] Id of the command assigned by Bot
+   */
+  commandId?: string;
+  /**
+   * @member {CommandContext} [commandContext] The context from which the
+   * command originates. Possible values include: 'message', 'compose',
+   * 'commandbox'
+   */
+  commandContext?: CommandContext;
+  /**
+   * @member {BotMessagePreviewAction} [botMessagePreviewAction] Bot message
+   * preview action taken by user. Possible values include: 'edit', 'send'
+   */
+  botMessagePreviewAction?: BotMessagePreviewAction;
+  /**
+   * @member {Activity[]} [botActivityPreview]
+   */
+  botActivityPreview?: builder.Activity[];
+  /**
+   * @member {MessageActionsPayload} [messagePayload] Message content sent as
+   * part of the command request.
+   */
+  messagePayload?: MessageActionsPayload;
+}
+
+/**
+ * @interface
+ * An interface representing TaskModuleResponseBase.
+ * Base class for Task Module responses
+ *
+ */
+export interface TaskModuleResponseBase {
+  /**
+   * @member {Type2} [type] Choice of action options when responding to the
+   * task/submit message. Possible values include: 'message', 'continue'
+   */
+  type?: Type2;
+}
+
+/**
+ * @interface
  * An interface representing MessagingExtensionAttachment.
  * Messaging extension attachment.
  *
@@ -589,10 +937,10 @@ export interface MessagingExtensionResult {
    */
   attachmentLayout?: AttachmentLayout;
   /**
-   * @member {Type2} [type] The type of the result. Possible values include:
-   * 'result', 'auth', 'config', 'message'
+   * @member {Type3} [type] The type of the result. Possible values include:
+   * 'result', 'auth', 'config', 'message', 'botMessagePreview'
    */
-  type?: Type2;
+  type?: Type3;
   /**
    * @member {MessagingExtensionAttachment[]} [attachments] (Only when type is
    * result) Attachments
@@ -611,6 +959,24 @@ export interface MessagingExtensionResult {
    * Message activity to preview
    */
   activityPreview?: builder.Activity;
+}
+
+/**
+ * @interface
+ * An interface representing MessagingExtensionActionResponse.
+ * Response of messaging extension action
+ *
+ */
+export interface MessagingExtensionActionResponse {
+  /**
+   * @member {TaskModuleResponseBase} [task] The JSON for the Adaptive card to
+   * appear in the task module.
+   */
+  task?: TaskModuleResponseBase;
+  /**
+   * @member {MessagingExtensionResult} [composeExtension]
+   */
+  composeExtension?: MessagingExtensionResult;
 }
 
 /**
@@ -801,20 +1167,6 @@ export interface TaskModuleTaskInfo {
 
 /**
  * @interface
- * An interface representing TaskModuleResponseBase.
- * Base class for Task Module responses
- *
- */
-export interface TaskModuleResponseBase {
-  /**
-   * @member {Type3} [type] Choice of action options when responding to the
-   * task/submit message. Possible values include: 'message', 'continue'
-   */
-  type?: Type3;
-}
-
-/**
- * @interface
  * An interface representing TaskModuleContinueResponse.
  * Task Module Response with continue action.
  *
@@ -845,16 +1197,42 @@ export interface TaskModuleMessageResponse extends TaskModuleResponseBase {
 
 /**
  * @interface
- * An interface representing TaskModuleResponseEnvelope.
+ * An interface representing TaskModuleResponse.
  * Envelope for Task Module Response.
  *
  */
-export interface TaskModuleResponseEnvelope {
+export interface TaskModuleResponse {
   /**
    * @member {TaskModuleResponseBase} [task] The JSON for the Adaptive card to
    * appear in the task module.
    */
   task?: TaskModuleResponseBase;
+}
+
+/**
+ * @interface
+ * An interface representing TaskModuleRequestContext.
+ * Current user context, i.e., the current theme
+ *
+ */
+export interface TaskModuleRequestContext {
+  /**
+   * @member {string} [theme]
+   */
+  theme?: string;
+}
+
+/**
+ * @interface
+ * An interface representing AppBasedLinkQuery.
+ * Invoke request body type for app-based link query.
+ *
+ */
+export interface AppBasedLinkQuery {
+  /**
+   * @member {string} [url] Url queried by user
+   */
+  url?: string;
 }
 
 /**
@@ -910,6 +1288,86 @@ export type Type1 = 'textInput' | 'dateInput' | 'multichoiceInput';
 export type Style = 'compact' | 'expanded';
 
 /**
+ * Defines values for UserIdentityType.
+ * Possible values include: 'aadUser', 'onPremiseAadUser', 'anonymousGuest', 'federatedUser'
+ * @readonly
+ * @enum {string}
+ */
+export type UserIdentityType = 'aadUser' | 'onPremiseAadUser' | 'anonymousGuest' | 'federatedUser';
+
+/**
+ * Defines values for ApplicationIdentityType.
+ * Possible values include: 'aadApplication', 'bot', 'tenantBot', 'office365Connector', 'webhook'
+ * @readonly
+ * @enum {string}
+ */
+export type ApplicationIdentityType = 'aadApplication' | 'bot' | 'tenantBot' | 'office365Connector' | 'webhook';
+
+/**
+ * Defines values for ConversationIdentityType.
+ * Possible values include: 'team', 'channel'
+ * @readonly
+ * @enum {string}
+ */
+export type ConversationIdentityType = 'team' | 'channel';
+
+/**
+ * Defines values for ContentType.
+ * Possible values include: 'html', 'text'
+ * @readonly
+ * @enum {string}
+ */
+export type ContentType = 'html' | 'text';
+
+/**
+ * Defines values for ReactionType.
+ * Possible values include: 'like', 'heart', 'laugh', 'surprised', 'sad', 'angry'
+ * @readonly
+ * @enum {string}
+ */
+export type ReactionType = 'like' | 'heart' | 'laugh' | 'surprised' | 'sad' | 'angry';
+
+/**
+ * Defines values for MessageType.
+ * Possible values include: 'message'
+ * @readonly
+ * @enum {string}
+ */
+export type MessageType = 'message';
+
+/**
+ * Defines values for Importance.
+ * Possible values include: 'normal', 'high', 'urgent'
+ * @readonly
+ * @enum {string}
+ */
+export type Importance = 'normal' | 'high' | 'urgent';
+
+/**
+ * Defines values for CommandContext.
+ * Possible values include: 'message', 'compose', 'commandbox'
+ * @readonly
+ * @enum {string}
+ */
+export type CommandContext = 'message' | 'compose' | 'commandbox';
+
+/**
+ * Defines values for BotMessagePreviewAction.
+ * Possible values include: 'edit', 'send'
+ * @readonly
+ * @enum {string}
+ */
+export type BotMessagePreviewAction = 'edit' | 'send';
+
+/**
+ * Defines values for Type2.
+ * Possible values include: 'message', 'continue'
+ * @readonly
+ * @enum {string}
+ */
+export type Type2 = 'message' | 'continue';
+
+/**
  * Defines values for AttachmentLayout.
  * Possible values include: 'list', 'grid'
  * @readonly
@@ -918,12 +1376,12 @@ export type Style = 'compact' | 'expanded';
 export type AttachmentLayout = 'list' | 'grid';
 
 /**
- * Defines values for Type2.
- * Possible values include: 'result', 'auth', 'config', 'message'
+ * Defines values for Type3.
+ * Possible values include: 'result', 'auth', 'config', 'message', 'botMessagePreview'
  * @readonly
  * @enum {string}
  */
-export type Type2 = 'result' | 'auth' | 'config' | 'message';
+export type Type3 = 'result' | 'auth' | 'config' | 'message' | 'botMessagePreview';
 
 /**
  * Defines values for Action.
@@ -932,14 +1390,6 @@ export type Type2 = 'result' | 'auth' | 'config' | 'message';
  * @enum {string}
  */
 export type Action = 'accept' | 'decline';
-
-/**
- * Defines values for Type3.
- * Possible values include: 'message', 'continue'
- * @readonly
- * @enum {string}
- */
-export type Type3 = 'message' | 'continue';
 
 /**
  * Contains response data for the fetchChannelList operation.
