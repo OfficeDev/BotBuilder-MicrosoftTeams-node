@@ -206,12 +206,6 @@ export const TeamsChannelAccount: msRest.CompositeMapper = {
     className: 'TeamsChannelAccount',
     modelProperties: {
       ...ChannelAccount.type.modelProperties,
-      aadObjectId: {
-        serializedName: 'aadObjectId',
-        type: {
-          name: 'String'
-        }
-      },
       givenName: {
         serializedName: 'givenName',
         type: {
@@ -906,6 +900,476 @@ export const MessagingExtensionQuery: msRest.CompositeMapper = {
   }
 };
 
+export const Activity: msRest.CompositeMapper = {
+  serializedName: 'Activity',
+  type: {
+    name: 'Composite',
+    className: 'Activity',
+    modelProperties: {
+      dummyProperty: {
+        serializedName: 'dummyProperty',
+        type: {
+          name: 'String'
+        }
+      }
+    }
+  }
+};
+
+export const MessageActionsPayloadUser: msRest.CompositeMapper = {
+  serializedName: 'MessageActionsPayloadUser',
+  type: {
+    name: 'Composite',
+    className: 'MessageActionsPayloadUser',
+    modelProperties: {
+      userIdentityType: {
+        serializedName: 'userIdentityType',
+        type: {
+          name: 'String'
+        }
+      },
+      id: {
+        serializedName: 'id',
+        type: {
+          name: 'String'
+        }
+      },
+      displayName: {
+        serializedName: 'displayName',
+        type: {
+          name: 'String'
+        }
+      }
+    }
+  }
+};
+
+export const MessageActionsPayloadApp: msRest.CompositeMapper = {
+  serializedName: 'MessageActionsPayloadApp',
+  type: {
+    name: 'Composite',
+    className: 'MessageActionsPayloadApp',
+    modelProperties: {
+      applicationIdentityType: {
+        serializedName: 'applicationIdentityType',
+        type: {
+          name: 'String'
+        }
+      },
+      id: {
+        serializedName: 'id',
+        type: {
+          name: 'String'
+        }
+      },
+      displayName: {
+        serializedName: 'displayName',
+        type: {
+          name: 'String'
+        }
+      }
+    }
+  }
+};
+
+export const MessageActionsPayloadConversation: msRest.CompositeMapper = {
+  serializedName: 'MessageActionsPayloadConversation',
+  type: {
+    name: 'Composite',
+    className: 'MessageActionsPayloadConversation',
+    modelProperties: {
+      conversationIdentityType: {
+        serializedName: 'conversationIdentityType',
+        type: {
+          name: 'String'
+        }
+      },
+      id: {
+        serializedName: 'id',
+        type: {
+          name: 'String'
+        }
+      },
+      displayName: {
+        serializedName: 'displayName',
+        type: {
+          name: 'String'
+        }
+      }
+    }
+  }
+};
+
+export const MessageActionsPayloadFrom: msRest.CompositeMapper = {
+  serializedName: 'MessageActionsPayloadFrom',
+  type: {
+    name: 'Composite',
+    className: 'MessageActionsPayloadFrom',
+    modelProperties: {
+      user: {
+        serializedName: 'user',
+        type: {
+          name: 'Composite',
+          className: 'MessageActionsPayloadUser'
+        }
+      },
+      application: {
+        serializedName: 'application',
+        type: {
+          name: 'Composite',
+          className: 'MessageActionsPayloadApp'
+        }
+      },
+      conversation: {
+        serializedName: 'conversation',
+        type: {
+          name: 'Composite',
+          className: 'MessageActionsPayloadConversation'
+        }
+      }
+    }
+  }
+};
+
+export const MessageActionsPayloadBody: msRest.CompositeMapper = {
+  serializedName: 'MessageActionsPayload_body',
+  type: {
+    name: 'Composite',
+    className: 'MessageActionsPayloadBody',
+    modelProperties: {
+      contentType: {
+        serializedName: 'contentType',
+        type: {
+          name: 'String'
+        }
+      },
+      content: {
+        serializedName: 'content',
+        type: {
+          name: 'String'
+        }
+      }
+    }
+  }
+};
+
+export const MessageActionsPayloadAttachment: msRest.CompositeMapper = {
+  serializedName: 'MessageActionsPayloadAttachment',
+  type: {
+    name: 'Composite',
+    className: 'MessageActionsPayloadAttachment',
+    modelProperties: {
+      id: {
+        serializedName: 'id',
+        type: {
+          name: 'String'
+        }
+      },
+      contentType: {
+        serializedName: 'contentType',
+        type: {
+          name: 'String'
+        }
+      },
+      contentUrl: {
+        serializedName: 'contentUrl',
+        type: {
+          name: 'String'
+        }
+      },
+      content: {
+        serializedName: 'content',
+        type: {
+          name: 'Object'
+        }
+      },
+      name: {
+        serializedName: 'name',
+        type: {
+          name: 'String'
+        }
+      },
+      thumbnailUrl: {
+        serializedName: 'thumbnailUrl',
+        type: {
+          name: 'String'
+        }
+      }
+    }
+  }
+};
+
+export const MessageActionsPayloadMention: msRest.CompositeMapper = {
+  serializedName: 'MessageActionsPayloadMention',
+  type: {
+    name: 'Composite',
+    className: 'MessageActionsPayloadMention',
+    modelProperties: {
+      id: {
+        serializedName: 'id',
+        type: {
+          name: 'Number'
+        }
+      },
+      mentionText: {
+        serializedName: 'mentionText',
+        type: {
+          name: 'String'
+        }
+      },
+      mentioned: {
+        serializedName: 'mentioned',
+        type: {
+          name: 'Composite',
+          className: 'MessageActionsPayloadFrom'
+        }
+      }
+    }
+  }
+};
+
+export const MessageActionsPayloadReaction: msRest.CompositeMapper = {
+  serializedName: 'MessageActionsPayloadReaction',
+  type: {
+    name: 'Composite',
+    className: 'MessageActionsPayloadReaction',
+    modelProperties: {
+      reactionType: {
+        serializedName: 'reactionType',
+        type: {
+          name: 'String'
+        }
+      },
+      createdDateTime: {
+        serializedName: 'createdDateTime',
+        type: {
+          name: 'String'
+        }
+      },
+      user: {
+        serializedName: 'user',
+        type: {
+          name: 'Composite',
+          className: 'MessageActionsPayloadFrom'
+        }
+      }
+    }
+  }
+};
+
+export const MessageActionsPayload: msRest.CompositeMapper = {
+  serializedName: 'MessageActionsPayload',
+  type: {
+    name: 'Composite',
+    className: 'MessageActionsPayload',
+    modelProperties: {
+      id: {
+        serializedName: 'id',
+        type: {
+          name: 'String'
+        }
+      },
+      replyToId: {
+        serializedName: 'replyToId',
+        type: {
+          name: 'String'
+        }
+      },
+      messageType: {
+        serializedName: 'messageType',
+        type: {
+          name: 'String'
+        }
+      },
+      createdDateTime: {
+        serializedName: 'createdDateTime',
+        type: {
+          name: 'String'
+        }
+      },
+      lastModifiedDateTime: {
+        serializedName: 'lastModifiedDateTime',
+        type: {
+          name: 'String'
+        }
+      },
+      deleted: {
+        serializedName: 'deleted',
+        type: {
+          name: 'Boolean'
+        }
+      },
+      subject: {
+        serializedName: 'subject',
+        type: {
+          name: 'String'
+        }
+      },
+      summary: {
+        serializedName: 'summary',
+        type: {
+          name: 'String'
+        }
+      },
+      importance: {
+        serializedName: 'importance',
+        type: {
+          name: 'String'
+        }
+      },
+      locale: {
+        serializedName: 'locale',
+        type: {
+          name: 'String'
+        }
+      },
+      from: {
+        serializedName: 'from',
+        type: {
+          name: 'Composite',
+          className: 'MessageActionsPayloadFrom'
+        }
+      },
+      body: {
+        serializedName: 'body',
+        type: {
+          name: 'Composite',
+          className: 'MessageActionsPayloadBody'
+        }
+      },
+      attachmentLayout: {
+        serializedName: 'attachmentLayout',
+        type: {
+          name: 'String'
+        }
+      },
+      attachments: {
+        serializedName: 'attachments',
+        type: {
+          name: 'Sequence',
+          element: {
+            type: {
+              name: 'Composite',
+              className: 'MessageActionsPayloadAttachment'
+            }
+          }
+        }
+      },
+      mentions: {
+        serializedName: 'mentions',
+        type: {
+          name: 'Sequence',
+          element: {
+            type: {
+              name: 'Composite',
+              className: 'MessageActionsPayloadMention'
+            }
+          }
+        }
+      },
+      reactions: {
+        serializedName: 'reactions',
+        type: {
+          name: 'Sequence',
+          element: {
+            type: {
+              name: 'Composite',
+              className: 'MessageActionsPayloadReaction'
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const TaskModuleRequest: msRest.CompositeMapper = {
+  serializedName: 'TaskModuleRequest',
+  type: {
+    name: 'Composite',
+    className: 'TaskModuleRequest',
+    modelProperties: {
+      data: {
+        serializedName: 'data',
+        type: {
+          name: 'Object'
+        }
+      },
+      context: {
+        serializedName: 'context',
+        type: {
+          name: 'Composite',
+          className: 'TaskModuleRequestContext'
+        }
+      }
+    }
+  }
+};
+
+export const MessagingExtensionAction: msRest.CompositeMapper = {
+  serializedName: 'MessagingExtensionAction',
+  type: {
+    name: 'Composite',
+    className: 'MessagingExtensionAction',
+    modelProperties: {
+      ...TaskModuleRequest.type.modelProperties,
+      commandId: {
+        serializedName: 'commandId',
+        type: {
+          name: 'String'
+        }
+      },
+      commandContext: {
+        serializedName: 'commandContext',
+        type: {
+          name: 'String'
+        }
+      },
+      botMessagePreviewAction: {
+        serializedName: 'botMessagePreviewAction',
+        type: {
+          name: 'String'
+        }
+      },
+      botActivityPreview: {
+        serializedName: 'botActivityPreview',
+        type: {
+          name: 'Sequence',
+          element: {
+            type: {
+              name: 'Composite',
+              className: 'Activity'
+            }
+          }
+        }
+      },
+      messagePayload: {
+        serializedName: 'messagePayload',
+        type: {
+          name: 'Composite',
+          className: 'MessageActionsPayload'
+        }
+      }
+    }
+  }
+};
+
+export const TaskModuleResponseBase: msRest.CompositeMapper = {
+  serializedName: 'TaskModuleResponseBase',
+  type: {
+    name: 'Composite',
+    className: 'TaskModuleResponseBase',
+    modelProperties: {
+      type: {
+        serializedName: 'type',
+        type: {
+          name: 'String'
+        }
+      }
+    }
+  }
+};
+
 export const Attachment: msRest.CompositeMapper = {
   serializedName: 'Attachment',
   type: {
@@ -1027,6 +1491,37 @@ export const MessagingExtensionResult: msRest.CompositeMapper = {
         serializedName: 'text',
         type: {
           name: 'String'
+        }
+      },
+      activityPreview: {
+        serializedName: 'activityPreview',
+        type: {
+          name: 'Composite',
+          className: 'Activity'
+        }
+      }
+    }
+  }
+};
+
+export const MessagingExtensionActionResponse: msRest.CompositeMapper = {
+  serializedName: 'MessagingExtensionActionResponse',
+  type: {
+    name: 'Composite',
+    className: 'MessagingExtensionActionResponse',
+    modelProperties: {
+      task: {
+        serializedName: 'task',
+        type: {
+          name: 'Composite',
+          className: 'TaskModuleResponseBase'
+        }
+      },
+      composeExtension: {
+        serializedName: 'composeExtension',
+        type: {
+          name: 'Composite',
+          className: 'MessagingExtensionResult'
         }
       }
     }
@@ -1209,6 +1704,143 @@ export const FileConsentCardResponse: msRest.CompositeMapper = {
         type: {
           name: 'Composite',
           className: 'FileUploadInfo'
+        }
+      }
+    }
+  }
+};
+
+export const TaskModuleTaskInfo: msRest.CompositeMapper = {
+  serializedName: 'TaskModuleTaskInfo',
+  type: {
+    name: 'Composite',
+    className: 'TaskModuleTaskInfo',
+    modelProperties: {
+      title: {
+        serializedName: 'title',
+        type: {
+          name: 'String'
+        }
+      },
+      height: {
+        serializedName: 'height',
+        type: {
+          name: 'Object'
+        }
+      },
+      width: {
+        serializedName: 'width',
+        type: {
+          name: 'Object'
+        }
+      },
+      url: {
+        serializedName: 'url',
+        type: {
+          name: 'String'
+        }
+      },
+      card: {
+        serializedName: 'card',
+        type: {
+          name: 'Composite',
+          className: 'Attachment'
+        }
+      },
+      fallbackUrl: {
+        serializedName: 'fallbackUrl',
+        type: {
+          name: 'String'
+        }
+      },
+      completionBotId: {
+        serializedName: 'completionBotId',
+        type: {
+          name: 'String'
+        }
+      }
+    }
+  }
+};
+
+export const TaskModuleContinueResponse: msRest.CompositeMapper = {
+  serializedName: 'TaskModuleContinueResponse',
+  type: {
+    name: 'Composite',
+    className: 'TaskModuleContinueResponse',
+    modelProperties: {
+      ...TaskModuleResponseBase.type.modelProperties,
+      value: {
+        serializedName: 'value',
+        type: {
+          name: 'Composite',
+          className: 'TaskModuleTaskInfo'
+        }
+      }
+    }
+  }
+};
+
+export const TaskModuleMessageResponse: msRest.CompositeMapper = {
+  serializedName: 'TaskModuleMessageResponse',
+  type: {
+    name: 'Composite',
+    className: 'TaskModuleMessageResponse',
+    modelProperties: {
+      ...TaskModuleResponseBase.type.modelProperties,
+      value: {
+        serializedName: 'value',
+        type: {
+          name: 'String'
+        }
+      }
+    }
+  }
+};
+
+export const TaskModuleResponse: msRest.CompositeMapper = {
+  serializedName: 'TaskModuleResponse',
+  type: {
+    name: 'Composite',
+    className: 'TaskModuleResponse',
+    modelProperties: {
+      task: {
+        serializedName: 'task',
+        type: {
+          name: 'Composite',
+          className: 'TaskModuleResponseBase'
+        }
+      }
+    }
+  }
+};
+
+export const TaskModuleRequestContext: msRest.CompositeMapper = {
+  serializedName: 'TaskModuleRequest_context',
+  type: {
+    name: 'Composite',
+    className: 'TaskModuleRequestContext',
+    modelProperties: {
+      theme: {
+        serializedName: 'theme',
+        type: {
+          name: 'String'
+        }
+      }
+    }
+  }
+};
+
+export const AppBasedLinkQuery: msRest.CompositeMapper = {
+  serializedName: 'AppBasedLinkQuery',
+  type: {
+    name: 'Composite',
+    className: 'AppBasedLinkQuery',
+    modelProperties: {
+      url: {
+        serializedName: 'url',
+        type: {
+          name: 'String'
         }
       }
     }

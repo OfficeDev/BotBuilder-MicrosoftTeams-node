@@ -21,8 +21,18 @@
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-import { CardFactory, Attachment } from 'botbuilder';
+import { CardFactory, Attachment, CardAction } from 'botbuilder';
 import * as models from '../schema';
+import * as ac from 'adaptivecards';
+
+export type IAdaptiveCardAction = ac.IAdaptiveCard['actions'][0];
+
+export interface ITaskModuleCardAction {
+  title: string;
+  value: {[key: string]: any};
+  toAction(): CardAction;
+  toAdaptiveCardAction(): IAdaptiveCardAction;
+}
 
 /**
  * Teams factory class that extends `CardFacotry` to create Teams-specific cards and types
@@ -97,6 +107,59 @@ export class TeamsFactory extends CardFactory {
       name: fileName,
       contentUrl,
       content
+    };
+  }
+
+  public static adaptiveCard(card: ac.IAdaptiveCard): Attachment {
+    return CardFactory.adaptiveCard(card);
+  }
+
+  public static adaptiveCardAction(action: CardAction | string | undefined): IAdaptiveCardAction {
+    const obj = TeamsFactory.adaptiveCardActions([action]);
+    return (obj && obj[0]) || undefined;
+  }
+
+  public static adaptiveCardActions(actions: (CardAction | string)[] | undefined): IAdaptiveCardAction[] {
+    let botBuilderBtns = CardFactory.actions(actions);
+    let acActions: IAdaptiveCardAction[] = [];
+    for (let i = 0; i < botBuilderBtns.length; ++i) {
+      let btn = botBuilderBtns[i];
+      let adapterBtn: IAdaptiveCardAction = {
+        id: undefined,
+        type: 'Action.Submit',
+        title: btn.title,
+        data: {},
+      };
+      delete btn.title;
+      adapterBtn.data[ 'msteams' ] = btn;
+      acActions.push(adapterBtn);
+    }
+    return acActions;
+  }
+
+  public static taskModuleAction(title: string, value: {[key: string]: any} = {}): ITaskModuleCardAction {
+    let adaptorObj: CardAction = {
+      type: 'invoke',
+      title,
+      value
+    };
+
+    let toAction = (): CardAction => {
+      let valJson = (typeof adaptorObj.value === 'string') ? JSON.parse(adaptorObj.value) : adaptorObj.value;
+      valJson.type = 'task/fetch';
+      adaptorObj.value = JSON.stringify(valJson);
+      return adaptorObj;
+    };
+
+    let toAdaptiveCardAction = (): IAdaptiveCardAction => {
+      let btn = toAction();
+      return TeamsFactory.adaptiveCardAction(btn);
+    };
+
+    return {
+      ...adaptorObj,
+      toAction,
+      toAdaptiveCardAction
     };
   }
 }

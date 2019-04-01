@@ -22,7 +22,18 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import { TurnContext, InvokeResponse, Activity } from 'botbuilder';
-import { MessagingExtensionQuery, MessagingExtensionResponse, O365ConnectorCardActionQuery, SigninStateVerificationQuery, FileConsentCardResponse } from '../schema';
+import { 
+  MessagingExtensionQuery, 
+  MessagingExtensionResponse,
+  O365ConnectorCardActionQuery,
+  SigninStateVerificationQuery,
+  FileConsentCardResponse,
+  TaskModuleRequest,
+  TaskModuleResponse,
+  MessagingExtensionAction,
+  MessagingExtensionActionResponse,
+  AppBasedLinkQuery
+} from '../schema';
 
 /**
  * Typed invoke request activity, inherited from `Activity`
@@ -111,6 +122,36 @@ export class InvokeActivity {
       value: <MessagingExtensionQuery> {},
       response: <InvokeResponseTyped<MessagingExtensionResponse>> {}
     },
+
+    onAppBasedLinkQuery: {
+      name: 'composeExtension/queryLink',
+      value: <AppBasedLinkQuery> {},
+      response: <InvokeResponseTyped<MessagingExtensionResponse>> {}
+    },
+
+    onMessagingExtensionFetchTask: {
+      name: 'composeExtension/fetchTask',
+      value: <MessagingExtensionAction> {},
+      response: <InvokeResponseTyped<MessagingExtensionActionResponse>> {}
+    },
+
+    onMessagingExtensionSubmitAction: {
+      name: 'composeExtension/submitAction',
+      value: <MessagingExtensionAction> {},
+      response: <InvokeResponseTyped<MessagingExtensionActionResponse>> {}
+    },
+
+    onTaskModuleFetch: {
+      name: 'task/fetch',
+      value: <TaskModuleRequest> {},
+      response: <InvokeResponseTyped<TaskModuleResponse>> {}
+    },
+
+    onTaskModuleSubmit: {
+      name: 'task/submit',
+      value: <TaskModuleRequest> {},
+      response: <InvokeResponseTyped<TaskModuleResponse>> {}
+    }
   };
 
   /**
@@ -146,6 +187,26 @@ export class InvokeActivity {
 
       if (handler.onMessagingExtensionQuery && InvokeActivity.is(activity, 'onMessagingExtensionQuery')) {
         return await handler.onMessagingExtensionQuery(turnContext, activity.value);
+      }
+
+      if (handler.onAppBasedLinkQuery && InvokeActivity.is(activity, 'onAppBasedLinkQuery')) {
+        return await handler.onAppBasedLinkQuery(turnContext, activity.value);
+      }
+
+      if (handler.onMessagingExtensionFetchTask && InvokeActivity.is(activity, 'onMessagingExtensionFetchTask')) {
+        return await handler.onMessagingExtensionFetchTask(turnContext, activity.value);
+      }
+
+      if (handler.onMessagingExtensionSubmitAction && InvokeActivity.is(activity, 'onMessagingExtensionSubmitAction')) {
+        return await handler.onMessagingExtensionSubmitAction(turnContext, activity.value);
+      }
+
+      if (handler.onTaskModuleFetch && InvokeActivity.is(activity, 'onTaskModuleFetch')) {
+        return await handler.onTaskModuleFetch(turnContext, activity.value);
+      }
+
+      if (handler.onTaskModuleSubmit && InvokeActivity.is(activity, 'onTaskModuleSubmit')) {
+        return await handler.onTaskModuleSubmit(turnContext, activity.value);
       }
 
       if (handler.onInvoke) {
