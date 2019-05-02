@@ -22,8 +22,11 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 import { CardFactory, Attachment, CardAction } from 'botbuilder';
+import { jsdom } from 'jsdom';
 import * as models from '../schema';
 import * as ac from 'adaptivecards';
+import { Teams } from '../connector';
+const { JSDOM } = jsdom;
 
 export type IAdaptiveCardAction = ac.IAdaptiveCard['actions'][0];
 
@@ -161,5 +164,10 @@ export class TeamsFactory extends CardFactory {
       toAction,
       toAdaptiveCardAction
     };
+  }
+
+  public static stripHtmlTag(content: string): string {
+    const dom = new JSDOM(content);
+    return dom.window.document.body.textContent;
   }
 }
