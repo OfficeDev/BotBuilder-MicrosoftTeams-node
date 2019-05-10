@@ -34,6 +34,8 @@ import {
   MessagingExtensionActionResponse,
   AppBasedLinkQuery
 } from '../schema';
+import { jsdom } from 'jsdom';
+const { JSDOM } = jsdom;
 
 /**
  * Typed invoke request activity, inherited from `Activity`
@@ -194,11 +196,15 @@ export class InvokeActivity {
       }
 
       if (handler.onMessagingExtensionFetchTask && InvokeActivity.is(activity, 'onMessagingExtensionFetchTask')) {
-        return await handler.onMessagingExtensionFetchTask(turnContext, activity.value);
+        let messagingExtensionActionData = activity.value;
+        messagingExtensionActionData.messagePayload.body.textContent = this.striHtmlTag(messagingExtensionActionData.messagePayload.body.content);
+        return await handler.onMessagingExtensionFetchTask(turnContext, messagingExtensionActionData);
       }
 
       if (handler.onMessagingExtensionSubmitAction && InvokeActivity.is(activity, 'onMessagingExtensionSubmitAction')) {
-        return await handler.onMessagingExtensionSubmitAction(turnContext, activity.value);
+        let messagingExtensionActionData = activity.value;
+        messagingExtensionActionData.messagePayload.body.textContent = this.striHtmlTag(messagingExtensionActionData.messagePayload.body.content);        
+        return await handler.onMessagingExtensionSubmitAction(turnContext, messagingExtensionActionData);
       }
 
       if (handler.onTaskModuleFetch && InvokeActivity.is(activity, 'onTaskModuleFetch')) {
@@ -213,5 +219,27 @@ export class InvokeActivity {
         return await handler.onInvoke(turnContext);
       }
     }
+  }
+
+  private static striHtmlTag(content: string): string {
+    let dom = new JSDOM(content);
+    const textRestrictedHtmlTags = new Set(["AT", "ATTACHMENT"]);
+    return this.striHtmlTagHelper(dom.window.document.body, textRestrictedHtmlTags);
+  }
+
+  private static striHtmlTagHelper(node, tags: Set<string>): string {
+    let result = '';
+    if (tags.has(node.tagName)) {
+      result += node.outerHTML;
+    } else {
+      node.childNodes.forEach(childNode => {
+        if (childNode.nodeType === 3) {
+          result += childNode.nodeValue;
+        } else {
+          result += this.striHtmlTagHelper(childNode, tags);
+        }
+      });
+    }
+    return result;  
   }
 }

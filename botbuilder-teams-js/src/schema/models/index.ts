@@ -660,6 +660,11 @@ export interface MessageActionsPayloadBody {
    * @member {string} [content] The content of the body.
    */
   content?: string;
+  /**
+   * @member {string} [textContent] The text content of the body after
+   * stripping HTML tags.
+   */
+  textContent?: string;
 }
 
 /**
