@@ -14,9 +14,11 @@
   "dependencies": {
     "adaptivecards": "^1.0.0",
     "botbuilder": "4.3.2",
-    "botframework-connector": "4.3.2"
+    "botframework-connector": "4.3.2",
+    "jsdom": "14.0.0"
   },
   "devDependencies": {
+    "@types/jsdom": "^12.2.3",
     "@types/mocha": "^5.2.6",
     "autorest": "^2.0.4283",
     "fs-extra": "^7.0.1",

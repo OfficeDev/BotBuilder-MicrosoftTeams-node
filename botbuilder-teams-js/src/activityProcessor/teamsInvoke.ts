@@ -34,6 +34,7 @@ import {
   MessagingExtensionActionResponse,
   AppBasedLinkQuery
 } from '../schema';
+import { JSDOM } from 'jsdom';
 
 /**
  * Typed invoke request activity, inherited from `Activity`
@@ -194,11 +195,15 @@ export class InvokeActivity {
       }
 
       if (handler.onMessagingExtensionFetchTask && InvokeActivity.is(activity, 'onMessagingExtensionFetchTask')) {
-        return await handler.onMessagingExtensionFetchTask(turnContext, activity.value);
+        let messagingExtensionActionData = activity.value;
+        messagingExtensionActionData.messagePayload.body.textContent = this.stripHtmlTag(messagingExtensionActionData.messagePayload.body.content);
+        return await handler.onMessagingExtensionFetchTask(turnContext, messagingExtensionActionData);
       }
 
       if (handler.onMessagingExtensionSubmitAction && InvokeActivity.is(activity, 'onMessagingExtensionSubmitAction')) {
-        return await handler.onMessagingExtensionSubmitAction(turnContext, activity.value);
+        let messagingExtensionActionData = activity.value;
+        messagingExtensionActionData.messagePayload.body.textContent = this.stripHtmlTag(messagingExtensionActionData.messagePayload.body.content);        
+        return await handler.onMessagingExtensionSubmitAction(turnContext, messagingExtensionActionData);
       }
 
       if (handler.onTaskModuleFetch && InvokeActivity.is(activity, 'onTaskModuleFetch')) {
@@ -213,5 +218,27 @@ export class InvokeActivity {
         return await handler.onInvoke(turnContext);
       }
     }
+  }
+
+  private static stripHtmlTag(content: string): string {
+    let dom = new JSDOM(content);
+    const textRestrictedHtmlTags = new Set(["AT", "ATTACHMENT"]);
+    return this.stripHtmlTagHelper(dom.window.document.body, textRestrictedHtmlTags);
+  }
+
+  private static stripHtmlTagHelper(node: HTMLElement, tags: Set<string>): string {
+    let result = '';
+    if (tags.has(node.tagName)) {
+      result += node.outerHTML;
+    } else {
+      node.childNodes.forEach(childNode => {
+        if (childNode.nodeType === Node.TEXT_NODE) {
+          result += childNode.nodeValue;
+        } else {
+          result += this.stripHtmlTagHelper(<HTMLElement>childNode, tags);
+        }
+      });
+    }
+    return result;  
   }
 }

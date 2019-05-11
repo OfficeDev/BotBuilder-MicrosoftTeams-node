@@ -1048,6 +1048,12 @@ export const MessageActionsPayloadBody: msRest.CompositeMapper = {
         type: {
           name: 'String'
         }
+      },
+      textContent: {
+        serializedName: 'textContent',
+        type: {
+          name: 'String'
+        }
       }
     }
   }
