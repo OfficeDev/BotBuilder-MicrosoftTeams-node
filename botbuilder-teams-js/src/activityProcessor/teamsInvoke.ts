@@ -34,8 +34,7 @@ import {
   MessagingExtensionActionResponse,
   AppBasedLinkQuery
 } from '../schema';
-import { jsdom } from 'jsdom';
-const { JSDOM } = jsdom;
+import { JSDOM } from 'jsdom';
 
 /**
  * Typed invoke request activity, inherited from `Activity`
@@ -197,13 +196,13 @@ export class InvokeActivity {
 
       if (handler.onMessagingExtensionFetchTask && InvokeActivity.is(activity, 'onMessagingExtensionFetchTask')) {
         let messagingExtensionActionData = activity.value;
-        messagingExtensionActionData.messagePayload.body.textContent = this.striHtmlTag(messagingExtensionActionData.messagePayload.body.content);
+        messagingExtensionActionData.messagePayload.body.textContent = this.stripHtmlTag(messagingExtensionActionData.messagePayload.body.content);
         return await handler.onMessagingExtensionFetchTask(turnContext, messagingExtensionActionData);
       }
 
       if (handler.onMessagingExtensionSubmitAction && InvokeActivity.is(activity, 'onMessagingExtensionSubmitAction')) {
         let messagingExtensionActionData = activity.value;
-        messagingExtensionActionData.messagePayload.body.textContent = this.striHtmlTag(messagingExtensionActionData.messagePayload.body.content);        
+        messagingExtensionActionData.messagePayload.body.textContent = this.stripHtmlTag(messagingExtensionActionData.messagePayload.body.content);        
         return await handler.onMessagingExtensionSubmitAction(turnContext, messagingExtensionActionData);
       }
 
@@ -221,22 +220,22 @@ export class InvokeActivity {
     }
   }
 
-  private static striHtmlTag(content: string): string {
+  private static stripHtmlTag(content: string): string {
     let dom = new JSDOM(content);
     const textRestrictedHtmlTags = new Set(["AT", "ATTACHMENT"]);
-    return this.striHtmlTagHelper(dom.window.document.body, textRestrictedHtmlTags);
+    return this.stripHtmlTagHelper(dom.window.document.body, textRestrictedHtmlTags);
   }
 
-  private static striHtmlTagHelper(node, tags: Set<string>): string {
+  private static stripHtmlTagHelper(node: HTMLElement, tags: Set<string>): string {
     let result = '';
     if (tags.has(node.tagName)) {
       result += node.outerHTML;
     } else {
       node.childNodes.forEach(childNode => {
-        if (childNode.nodeType === 3) {
+        if (childNode.nodeType === Node.TEXT_NODE) {
           result += childNode.nodeValue;
         } else {
-          result += this.striHtmlTagHelper(childNode, tags);
+          result += this.stripHtmlTagHelper(<HTMLElement>childNode, tags);
         }
       });
     }
