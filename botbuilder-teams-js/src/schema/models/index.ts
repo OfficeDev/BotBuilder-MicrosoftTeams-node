@@ -646,29 +646,6 @@ export interface MessageActionsPayloadFrom {
 
 /**
  * @interface
- * An interface representing MessageActionsPayloadBody.
- * Plaintext/HTML representation of the content of the message.
- *
- */
-export interface MessageActionsPayloadBody {
-  /**
-   * @member {ContentType} [contentType] Type of the content. Possible values
-   * include: 'html', 'text'
-   */
-  contentType?: ContentType;
-  /**
-   * @member {string} [content] The content of the body.
-   */
-  content?: string;
-  /**
-   * @member {string} [textContent] The text content of the body after
-   * stripping HTML tags.
-   */
-  textContent?: string;
-}
-
-/**
- * @interface
  * An interface representing MessageActionsPayloadAttachment.
  * Represents the attachment in a message.
  *
@@ -813,7 +790,7 @@ export interface MessageActionsPayload {
    * @member {MessageActionsPayloadBody} [body] Plaintext/HTML representation
    * of the content of the message.
    */
-  body?: MessageActionsPayloadBody;
+  body?: teams.MessageActionsPayloadBody;
   /**
    * @member {string} [attachmentLayout] How the attachment(s) are displayed in
    * the message.
