@@ -123,7 +123,7 @@ server.get('/auth', (req, res) => {
   res.end();
 });
 
-const onAuthResultBody = (succeeded: boolean, state?: string, teamsSdk: string = 'https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js') => 
+const onAuthResultBody = (succeeded: boolean, state?: string, teamsSdk: string = 'https://statics.teams.cdn.office.net/sdk/v1.5.2/js/MicrosoftTeams.min.js') => 
 { 
   return succeeded ? `
     <html>
