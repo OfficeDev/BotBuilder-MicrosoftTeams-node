@@ -13,8 +13,8 @@
   "typings": "./lib/index.d.ts",
   "dependencies": {
     "adaptivecards": "^1.0.0",
-    "botbuilder": "4.3.2",
-    "botframework-connector": "4.3.2",
+    "botbuilder": "4.5.1",
+    "botframework-connector": "4.5.1",
     "jsdom": "14.0.0"
   },
   "devDependencies": {
