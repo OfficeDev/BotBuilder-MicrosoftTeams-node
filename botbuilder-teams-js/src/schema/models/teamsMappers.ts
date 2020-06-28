@@ -7,6 +7,14 @@
 export {
   ConversationList,
   ChannelInfo,
-  TeamDetails
+  TeamDetails,
+  TeamsCreateReplyChainRequest,
+  TeamsChannelData,
+  TeamInfo,
+  NotificationInfo,
+  TenantInfo,
+  CreateReplyChainCreatedResponse
 } from '../models/mappers';
 
+
+export * from 'botframework-connector/lib/connectorApi/models/mappers';

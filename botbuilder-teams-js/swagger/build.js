@@ -5,6 +5,7 @@ let rimraf = require("rimraf");
 let replace = require('replace');
 
 const out = process.argv[2] || './out';
+const extensionTypeFile = './extension.json';
 
 async function autorest() {
   rimraf.sync(out);
@@ -59,7 +60,7 @@ function deleteClassDeclaration (lines, className) {
   }
 }
 
-function imposeExtBaseClass (lines, extNSOfBotbuilder = 'builder', extNSOfTeams = 'teams', descriptorFile = './extension.json') {
+function imposeExtBaseClass (lines, extNSOfBotbuilder = 'builder', extNSOfTeams = 'teams', descriptorFile = extensionTypeFile) {
   const json = JSON.parse(fs.readFileSync(descriptorFile).toString());
   const { extBotBuilderTypes, extTeamsTypes } = json;
   const extTypes = [...extBotBuilderTypes, ...extTeamsTypes];
@@ -91,11 +92,33 @@ function processExtTypes() {
     `import * as teams from '../extension'`,
     `import * as builder from 'botbuilder'`
   ]);
-  imposeExtBaseClass(lines, 'builder', 'teams', './extension.json');
+  imposeExtBaseClass(lines, 'builder', 'teams', extensionTypeFile);
   fs.writeFileSync(modelsFile, lines.join('\n'));
 }
 
-function releaseAndcleanup() {
+function processMapperTypes() {
+  const mapperFile = `${out}/lib/models/teamsMappers.ts`;
+  let lines = fs.readFileSync(mapperFile).toString().split('\n');
+
+  // 1. replace mapper classes defined in botbuilder
+  const json = JSON.parse(fs.readFileSync(extensionTypeFile).toString());
+  const { extBotBuilderTypes } = json;
+  lines = lines.filter((line, index, arr) => {
+    let trim = line.trim();
+    if (trim.length > 0 && trim[trim.length - 1] === ',') {
+      trim = trim.substr(0, trim.length - 1);
+    }
+    return extBotBuilderTypes.find(clsName => clsName === trim) === undefined;
+  });
+  
+  // 2. export botframework-connector mappers at the end
+  lines.push(`export * from 'botframework-connector/lib/connectorApi/models/mappers';`);
+
+  // 3. write back
+  fs.writeFileSync(mapperFile, lines.join('\n'));
+}
+
+function releaseAndCleanup() {
   rimraf.sync(`../src/schema/models`);
   rimraf.sync(`../src/schema/operations`);
   fsExt.moveSync(`${out}/lib/models`, `../src/schema/models`);
@@ -107,7 +130,8 @@ async function build() {
   await autorest();
   replaceStrings();
   processExtTypes();
-  releaseAndcleanup();
+  processMapperTypes();
+  releaseAndCleanup();
 }
 
 build();

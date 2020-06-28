@@ -1219,6 +1219,38 @@ export interface AppBasedLinkQuery {
 
 /**
  * @interface
+ * An interface representing TeamsCreateReplyChainRequest.
+ */
+export interface TeamsCreateReplyChainRequest {
+  /**
+   * @member {Activity} [activity]
+   */
+  activity?: builder.Activity;
+  /**
+   * @member {TeamsChannelData} [channelData]
+   */
+  channelData?: TeamsChannelData;
+}
+
+/**
+ * @interface
+ * An interface representing CreateReplyChainCreatedResponse.
+ */
+export interface CreateReplyChainCreatedResponse {
+  /**
+   * @member {string} [id] Conversation id with message id for the created new
+   * reply chain.
+   */
+  id?: string;
+  /**
+   * @member {string} [activityId] builder.Activity id for the new message (resource
+   * response)
+   */
+  activityId?: string;
+}
+
+/**
+ * @interface
  * An interface representing TeamsConnectorClientOptions.
  * @extends ServiceClientOptions
  */
@@ -1408,5 +1440,24 @@ export type TeamsFetchTeamDetailsResponse = TeamDetails & {
        * The response body as parsed JSON or XML
        */
       parsedBody: TeamDetails;
+    };
+};
+
+/**
+ * Contains response data for the createReplyChain operation.
+ */
+export type TeamsCreateReplyChainResponse = CreateReplyChainCreatedResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CreateReplyChainCreatedResponse;
     };
 };

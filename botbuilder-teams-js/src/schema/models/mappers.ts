@@ -1852,3 +1852,49 @@ export const AppBasedLinkQuery: msRest.CompositeMapper = {
     }
   }
 };
+
+export const TeamsCreateReplyChainRequest: msRest.CompositeMapper = {
+  serializedName: 'teamsCreateReplyChainRequest',
+  type: {
+    name: 'Composite',
+    className: 'TeamsCreateReplyChainRequest',
+    modelProperties: {
+      activity: {
+        serializedName: 'activity',
+        type: {
+          name: 'Composite',
+          className: 'Activity'
+        }
+      },
+      channelData: {
+        serializedName: 'channelData',
+        type: {
+          name: 'Composite',
+          className: 'TeamsChannelData'
+        }
+      }
+    }
+  }
+};
+
+export const CreateReplyChainCreatedResponse: msRest.CompositeMapper = {
+  serializedName: 'CreateReplyChainCreatedResponse',
+  type: {
+    name: 'Composite',
+    className: 'CreateReplyChainCreatedResponse',
+    modelProperties: {
+      id: {
+        serializedName: 'id',
+        type: {
+          name: 'String'
+        }
+      },
+      activityId: {
+        serializedName: 'activityId',
+        type: {
+          name: 'String'
+        }
+      }
+    }
+  }
+};

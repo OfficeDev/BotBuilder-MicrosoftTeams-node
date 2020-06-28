@@ -48,7 +48,11 @@ export class TeamsBot {
                         break;
 
                     case 'reply-chain':
-                        await adapter.createReplyChain(ctx, [{ text: 'New reply chain' }]);
+                        const replyChain: teams.TeamsCreateReplyChainResponse = await adapter.createReplyChain(ctx, { text: 'New reply chain' });
+                        await ctx.sendActivity({
+                            textFormat: 'xml',
+                            text: `<b>New reply chain created.</b><br/> Conversation id (with message id): <pre>${replyChain.id}</pre> activityId: <pre>${replyChain.activityId}</pre>`
+                        })
                         break;
 
                     case '1:1':

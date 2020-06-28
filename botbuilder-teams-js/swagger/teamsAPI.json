@@ -85,6 +85,62 @@
         },
         "deprecated": false
       }
+    },
+
+    "/v3/conversations": {
+      "post": {
+        "tags": ["Teams"],
+        "summary": "Create new reply chain in Teams channel",
+        "description": "Create new reply chain in Teams channel",
+        "operationId": "Teams_CreateReplyChain",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "text/json",
+          "application/xml",
+          "text/xml"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "teamsCreateReplyChainRequest",
+            "description": "POST body for /v3/conversations request to create reply chain in Teams channel",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "activity": {
+                  "$ref": "#/definitions/Activity"
+                },
+                "channelData": {
+                  "$ref": "#/definitions/TeamsChannelData"
+                }
+              }        
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Response of reply chain creation",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "description": "Conversation id with message id for the created new reply chain.",
+                  "type": "string"
+                },
+                "activityId": {
+                  "description": "Activity id for the new message (resource response)",
+                  "type": "string"
+                }
+              }        
+            }
+          }
+        },
+        "deprecated": false
+      }
     }
   },
 

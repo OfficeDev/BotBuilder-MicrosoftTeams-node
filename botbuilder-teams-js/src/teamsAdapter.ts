@@ -23,7 +23,7 @@
 
 import { BotFrameworkAdapter, ConversationReference, TurnContext, ConversationParameters, Activity, ConversationAccount, ResourceResponse, ActivityTypes } from 'botbuilder';
 import { ConnectorClient } from 'botframework-connector';
-import { TeamsChannelData, TeamsChannelAccount } from './schema';
+import { TeamsChannelData, TeamsChannelAccount, TeamsCreateReplyChainResponse } from './schema';
 import { TeamsContext } from './teamsContext';
 
 /**
@@ -156,23 +156,23 @@ export class TeamsAdapter extends BotFrameworkAdapter {
    * @remarks
    * If a bot receives messages and wants to reply it as a new reply chain rather than reply it in the same thread, 
    * then this method can be used. This method uses `turnContext.activity` as the conversation reference to figure out
-   * the channel id in the current context and sends out activities as new messages in this team channel, so new reply
+   * the channel id in the current context and sends out activity as new messages in this team channel, so new reply
    * chain is created and it won't reply to the original thread. The usages looks like:
    * 
    * ```JavaScript
-   * await adapter.createReplyChain(ctx, [
+   * await adapter.createReplyChain(ctx,
    *   { text: 'New reply chain' }
-   * ]);
+   * );
    * ```
    * @param turnContext current TurnContext
-   * @param activities One or more activities to send to the team as new reply chain.
+   * @param activity activity to send to the team as new reply chain.
    * @param [inGeneralChannel] (optional) set it true if you want to create new reply chain in the general channel
    */
-  public createReplyChain(turnContext: TurnContext, activities: Partial<Activity>[], inGeneralChannel?: boolean): Promise<ResourceResponse[]> {
+  public createReplyChain(turnContext: TurnContext, activity: Partial<Activity>, inGeneralChannel?: boolean): Promise<TeamsCreateReplyChainResponse> {
     let sentNonTraceActivity: boolean = false;
     const teamsCtx = TeamsContext.from(turnContext);
     const ref: Partial<ConversationReference> = TurnContext.getConversationReference(turnContext.activity);
-    const output: Partial<Activity>[] = activities.map((a: Partial<Activity>) => {
+    const output: Partial<Activity>[] = [activity].map((a: Partial<Activity>) => {
       const o: Partial<Activity> = TurnContext.applyConversationReference({...a}, ref);
       try {
         o.conversation.id = inGeneralChannel
@@ -187,12 +187,14 @@ export class TeamsAdapter extends BotFrameworkAdapter {
     });
 
     return turnContext['emit'](turnContext['_onSendActivities'], output, () => {
-      return super.sendActivities(turnContext, output)
-        .then((responses: ResourceResponse[]) => {
+      return teamsCtx.teamsConnectorClient.teams.createReplyChain({
+        activity: output[0] as Activity,
+        channelData: teamsCtx.getTeamsChannelData()
+      }).then((responses: TeamsCreateReplyChainResponse) => {
           // Set responded flag
           if (sentNonTraceActivity) { turnContext.responded = true; }
           return responses;
-        });
+      });
     });
   }
 

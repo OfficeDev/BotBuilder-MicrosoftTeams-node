@@ -79,6 +79,38 @@ export class Teams {
       fetchTeamDetailsOperationSpec,
       callback) as Promise<Models.TeamsFetchTeamDetailsResponse>;
   }
+
+  /**
+   * Create new reply chain in Teams channel
+   * @summary Create new reply chain in Teams channel
+   * @param teamsCreateReplyChainRequest POST body for /v3/conversations request to create reply
+   * chain in Teams channel
+   * @param [options] The optional parameters
+   * @returns Promise<Models.TeamsCreateReplyChainResponse>
+   */
+  createReplyChain(teamsCreateReplyChainRequest: Models.TeamsCreateReplyChainRequest, options?: msRest.RequestOptionsBase): Promise<Models.TeamsCreateReplyChainResponse>;
+  /**
+   * @param teamsCreateReplyChainRequest POST body for /v3/conversations request to create reply
+   * chain in Teams channel
+   * @param callback The callback
+   */
+  createReplyChain(teamsCreateReplyChainRequest: Models.TeamsCreateReplyChainRequest, callback: msRest.ServiceCallback<Models.CreateReplyChainCreatedResponse>): void;
+  /**
+   * @param teamsCreateReplyChainRequest POST body for /v3/conversations request to create reply
+   * chain in Teams channel
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  createReplyChain(teamsCreateReplyChainRequest: Models.TeamsCreateReplyChainRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CreateReplyChainCreatedResponse>): void;
+  createReplyChain(teamsCreateReplyChainRequest: Models.TeamsCreateReplyChainRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CreateReplyChainCreatedResponse>, callback?: msRest.ServiceCallback<Models.CreateReplyChainCreatedResponse>): Promise<Models.TeamsCreateReplyChainResponse> {
+    return this.client.sendOperationRequest(
+      {
+        teamsCreateReplyChainRequest,
+        options
+      },
+      createReplyChainOperationSpec,
+      callback) as Promise<Models.TeamsCreateReplyChainResponse>;
+  }
 }
 
 // Operation Specifications
@@ -107,6 +139,25 @@ const fetchTeamDetailsOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.TeamDetails
+    },
+    default: {}
+  },
+  serializer
+};
+
+const createReplyChainOperationSpec: msRest.OperationSpec = {
+  httpMethod: 'POST',
+  path: 'v3/conversations',
+  requestBody: {
+    parameterPath: 'teamsCreateReplyChainRequest',
+    mapper: {
+      ...Mappers.TeamsCreateReplyChainRequest,
+      required: true
+    }
+  },
+  responses: {
+    201: {
+      bodyMapper: Mappers.CreateReplyChainCreatedResponse
     },
     default: {}
   },
