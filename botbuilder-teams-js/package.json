@@ -15,7 +15,7 @@
     "adaptivecards": "^1.0.0",
     "botbuilder": "4.3.2",
     "botframework-connector": "4.3.2",
-    "jsdom": "14.0.0"
+    "jsdom": "16.5.0"
   },
   "devDependencies": {
     "@types/jsdom": "^12.2.3",
